@@ -40,6 +40,7 @@
             <li><a href="accounts.html">Graphs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="options.html">Options</a></li>
             <li><a href="about.html">About</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -57,7 +58,7 @@
     <div id="unknownacc" class="alert alert-warning collapse" role="alert"><strong>Account not indexed</strong><br />
         Account transfers and balance will appear here once DAO tokens are sent to it</div> 
       
-        <h3>Account: <small><span id="account-js"></span> <a id="extacc" data-toggle="tooltip" title="Open in external block explorer"> <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></small></h3>
+        <h3>Account: <small><span id="account-js"></span> <a id="extacc" class="hexlink" data-toggle="tooltip" title="Open in external block explorer"> <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></small></h3>
 
         <h4>Token balance: <small><span id="amount-js" data-toggle="tooltip" title=""></span> <span id="amountpc" class="label label-default"></span></small></h4>
 <br />
@@ -160,25 +161,6 @@ function tableView(sentvis, recvvis){
     if(sentvis)$('.tx-sent').addClass("hidden");
     else $('.tx-sent').removeClass("hidden");
 
-    
-    /*$("table#transferTable").removeClass("table-striped");
-
-    // now add stripes to alternating rows
-    $("table#transferTable tr").each(function (index) {
-        alert(index);
-      // but first remove class that may have been added by previous changes
-$(this).css("background-color", "inherit");
-  if ( index % 2 == 0) {
-    $(this).css("background-color", "#f9f9f9");
-      }
-    });*/
-/*
-    $("tr:not(.hidden)").each(function (index) {
-    $(this).toggleClass("stripe", !!(index & 1));
-});*/
-
-
-
 
 }
 
@@ -206,17 +188,6 @@ if(re.test(hash))
         return;
     }
     
-    /*data = {amount: 16,
-            transfers: [{
-                blk: 10,
-                out: true,
-                tgt: "0x4651468176810571056465046a",
-                amt: 1},
-                {
-                blk: 12,
-                out: false,
-                tgt: "0x4651468176810571056465046a",
-                amt: 1}]};*/
                 
                 console.log(status);
     
@@ -237,6 +208,7 @@ if(re.test(hash))
             $("#txCount").html(transfers.length);
             $("#txBadge").html(transfers.length);
         }
+        transfers.sort(function(a,b){return b['blk']-a['blk']})
         for(var i=0; i<transfers.length; i++)
         {
             t = transfers[i];
@@ -267,7 +239,7 @@ if(re.test(hash))
         
         
         
-        $("#extacc").prop("href", "https://etherchain.org/account/" + hash);
+        $("#extacc").prop("href", preferredAccountExplorer() + hash);
         
         $('[data-toggle="tooltip"]').tooltip({
             container : 'body'

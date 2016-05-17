@@ -114,9 +114,33 @@ function baseToETH(value, base){
     else return formatFloat(value*(1e-24)) + " Mether";
 }
 
+function preferredAccountExplorer(){
+    if(typeof(Storage) !== undefined){
+        var exp = localStorage.explorer;
+        if (exp == "chain" || exp == "undefined" || exp == undefined) return "https://etherchain.org/account/"
+        else if(exp == "camp") return "https://live.ether.camp/account/"
+        else if(exp == "scan") return "https://etherscan.io/address/"
+        else return localStorage.explorerAccount;
+    }
+    else return "https://etherchain.org/account/"
+}
+
+function preferredBlockExplorer(){
+    if(typeof(Storage) !== undefined){
+        var exp = localStorage.explorer;
+        console.log(localStorage.explorer);
+        if (exp == "chain" || exp == "undefined" || exp == undefined) return "https://etherchain.org/block/"
+        else if(exp == "camp") return "https://live.ether.camp/block/"
+        else if(exp == "scan") return "https://etherscan.io/block"
+        else return localStorage.explorerBlock;
+    }
+    else return "https://etherchain.org/block/"
+}
+
 function hexLink(){
+    var exp = preferredAccountExplorer();
     $("a.hexLink").each(function(){
-        $(this).prop("href", "https://etherchain.org/account/" + $(this).text());
+        $(this).prop("href", exp + $(this).text());
     });
 }
 var nullAddr = "0x0000000000000000000000000000000000000000";
@@ -136,8 +160,9 @@ function accLink(){
 }
 
 function blockLink(){
+    var exp = preferredBlockExplorer();
     $("a.blockLink").each(function(){
-        $(this).prop("href", "https://etherchain.org/block/" + $(this).text());
+        $(this).prop("href", exp + $(this).text());
     });
 }
 

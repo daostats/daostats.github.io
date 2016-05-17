@@ -41,6 +41,7 @@
             <li><a href="tokenvol.html">Graphs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="options.html">Options</a></li>
             <li><a href="about.html">About</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -55,9 +56,9 @@
       <!--<div class="alert alert-info alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <strong>Down for maintenance.</strong><br />You can still view the site, but no updates will be shown.</div>-->
       
-      <div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <div id="betaAlert" class="alert alert-info alert-dismissible collapse" role="alert"><button type="button" id="hideBetaMessage" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       <strong>DAO Stats is in beta!</strong><br />Please report any bugs or inconsistencies on <strong><a href="https://github.com/daostats/daostats.github.io">GitHub</a></strong></div>
-      <div class="page-header">
+      <div class="page-header" style="margin-top:0px;">
       <div class="row">
       <div class="col-sm-6">
   <h1>DAO Stats <sup><small><span class="label label-info">Beta</span></small></sup></h1>
@@ -251,6 +252,15 @@ getData("home", function(data, status){
 
 });
 
+if(typeof(Storage) !== undefined){
+    $("#hideBetaMessage").click(function(){
+        localStorage.hideBeta = "true";
+    });
+
+    if(localStorage.hideBeta != "true"){
+        $("#betaAlert").collapse("show");
+    }
+}
 </script>
 
 <script>
