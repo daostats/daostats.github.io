@@ -1,11 +1,11 @@
-function getData(url, success){
+function getData(url, success, nocache){
     
     if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
             console.log("Fast mode");
             url = "https://raw.githubusercontent.com/daostats/daostats.github.io/master/" + url + ".js";
             
             var updateCycle = Math.floor((new Date().getMinutes()-1)/5);
-            url += "?c=" + updateCycle;
+            if(nocache != true) url += "?c=" + updateCycle;
     }
 
     else url = url + ".js";
