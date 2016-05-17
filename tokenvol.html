@@ -666,9 +666,9 @@ getData("volhistory", function(data, status){
             return (Math.round(n/100000)/10).toLocaleString() + "M";
         }, {button: {text: "Show time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
                                       , disable: function(scope){this.changeTickFormat(undefined, 150, "Block");}}});*/
-    });
+    }, true);
 
-});
+}, true);
 
 </script>
 <script>
