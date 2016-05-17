@@ -1,13 +1,14 @@
 function getData(url, success){
     
-    if(typeof(Storage) !== undefined){
-        if(localStorage.fastMode == "true"){
+    if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
             console.log("Fast mode");
-            url = "https://raw.githubusercontent.com/daostats/daostats.github.io/master/" + url;
-        }
+            url = "https://raw.githubusercontent.com/daostats/daostats.github.io/master/" + url + ".js";
+            
+            var updateCycle = Math.floor((new Date().getMinutes()-1)/5);
+            url += "?c=" + updateCycle;
     }
 
-    url = url + ".js";
+    else url = url + ".js";
     
     console.log("Getting data at " + url);
     
