@@ -1,5 +1,12 @@
 function getData(url, success){
     
+    if(typeof(Storage) !== undefined){
+        if(localStorage.fastMode == "true"){
+            console.log("Fast mode");
+            url = "https://raw.githubusercontent.com/daostats/daostats.github.io/master/" + url;
+        }
+    }
+
     url = url + ".js";
     
     console.log("Getting data at " + url);
