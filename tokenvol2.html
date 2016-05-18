@@ -613,7 +613,7 @@ getData("volhistory", function(data, status){
     tokenLine.brush = true;
     new plotGraph("graphBox", [tokenLine], 0, "Block", "Volume", function(n){
             return Math.round(n/1000000).toLocaleString() + "M";
-        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(function(i){blockToTime(bdata, i)}, 180, "Time");}
+        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(function(i){return blockToTime(bdata, i)}, 180, "Time");}
                                       , disable: function(scope){this.changeTickFormat(undefined, 100, "Block");}}});
     
     getData("bal", function(eth, status){
@@ -676,13 +676,9 @@ getData("volhistory", function(data, status){
         
         new plotGraph("graphBoxEth", allLines, 0, "Block", "Ether", function(n){
             return (Math.round(n/100000)/10).toLocaleString() + "M";
-        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
+        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(function(i){return blockToTime(bdata, i)}, 180, "Time");}
                                       , disable: function(scope){this.changeTickFormat(undefined, 150, "Block");}}});
                                       
-        /*new plotGraph("graphBox", allLines, 0, "Block", "Ether", function(n){
-            return (Math.round(n/100000)/10).toLocaleString() + "M";
-        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
-                                      , disable: function(scope){this.changeTickFormat(undefined, 150, "Block");}}});*/
     }, true);
     }, true);
 
