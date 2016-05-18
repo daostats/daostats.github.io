@@ -143,7 +143,7 @@ function blockToTime(b, num){
        bl = b[b.length-1];
     }
     else{
-       var n = num - b[0] / 1000;
+       var n = num - b[0][0] / 1000;
        bf = b[n];
        bl = b[n+1];
     }
@@ -214,12 +214,10 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         .domain([bStart, bEnd]);
 
     var y = d3.scale.linear()
-        .range([height, 0])
-        .domain([0, volMax]);
+        .range([height, 0]);
         
     var y2 = d3.scale.linear()
-        .range([height2, 0])
-        .domain([0, volMax]);
+        .range([height2, 0]);
 
     var xAxis = this.xAxis = d3.svg.axis()
         .scale(x)
@@ -281,7 +279,10 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
     .attr("height", height);
         
     x.domain(d3.extent(lines[dd].data, function(d) { return d[0]; }));
-    y.domain([0, d3.max(lines[dd].data, function(d) { return d[1]; })*1.2]);
+
+	var yd= [0, d3.max(lines[dd].data, function(d) { return d[1]; })*1.1];
+    y.domain(yd);
+    y2.domain(yd);
 
     var xAxisElem = this.xAxisElem = svg.append("g")
       .attr("class", "x axis")
@@ -605,7 +606,7 @@ function genLine(data, name, colour, textLabel){
 getData("volhistory", function(data, status){
 
     getData("blocktime", function(bdata, bstatus){
-
+	console.log(bdata);
 
     var tokenLine = genLine(data);
     tokenLine.brush = true;
