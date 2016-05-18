@@ -96,6 +96,7 @@
             <li class="active"><a href="tokenvol.html">Graphs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <li><a href="options.html">Options</a></li>
             <li><a href="about.html">About</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -130,17 +131,28 @@
 
 //data = [[0, 0], [1, 5], [2, 10], [3, 11], [4, 5], [5, 20]];
 
-function blockToTime(num){
-    t1200000 = 1458700607;
-    t1500000 = 1462959933;
+function blockToTime(b, num){
+
+    var bf, bl;
+    if(num < b[0][0]){
+        bf = b[0];
+        bl = b[1];
+    }
+    else if(num > b[b.length-1][0]){
+       bf = b[b.length-2];
+       bl = b[b.length-1];
+    }
+    else{
+       var n = num - b[0] / 1000;
+       bf = b[n];
+       bl = b[n+1];
+    }
     
-    var diff = t1500000 - t1200000;
+    var distance = 1000;
+    var tdiff = bl[1] - bf[1];
+    var factor = (num - bf[0])/distance;
     
-    var offset = num - 1200000;
-    
-    var toffset = offset * diff/300000;
-    
-    var t = toffset + t1200000
+    var t = factor * tdiff + bf[1];
     
 
     close = new Date(t * 1000);
@@ -176,7 +188,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
     var boxW = parseInt(d3.select('#graphBoxEth').style('width'), 10);
     var boxH = 500;
     
-    var margin = {top: 20, right: 30, bottom: 55, left: 45},
+    var margin = {top: 20, right: 30, bottom: 55, left: 50},
         width = boxW - margin.left - margin.right,
         height = boxH - margin.top - margin.bottom;
         
@@ -596,7 +608,7 @@ getData("volhistory", function(data, status){
     tokenLine.brush = true;
     new plotGraph("graphBox", [tokenLine], 0, "Block", "Volume", function(n){
             return Math.round(n/1000000).toLocaleString() + "M";
-        }, {button: {text: "Show time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
+        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
                                       , disable: function(scope){this.changeTickFormat(undefined, 100, "Block");}}});
     
     getData("bal", function(eth, status){
@@ -617,6 +629,10 @@ getData("volhistory", function(data, status){
             i++;
             if(i == data.length) break;
         }
+
+        for(var i=0; i < eth.length; i++){
+            eth[i][1] += eth[i][2] + eth[i][3];
+        }
         
         
         ethData = ethData.concat(eth);
@@ -630,11 +646,16 @@ getData("volhistory", function(data, status){
         ethDataLine.legend = {toggle: false};
         ethDataLine.brush = true;
         
+	var supplyStart = ethSupply(ethData1st);
+	var supplyEnd = ethSupply(ethDataLast);
+
+	var ethPcN = Math.floor(100*(ethData[ethData.length-1][1] / supplyEnd))+1;
+
         ethpcLines = [];
         pcCol = "rgba(150, 80, 50, 0.7)";
-        for(var i = 1; i < 8; i++){
-            var line = genLine( [[ethData1st, ethSupply(ethData1st)*0.01*i], [ethDataLast, ethSupply(ethDataLast)*0.01*i]]
-                                  , i + "% ETH supply"
+        for(var i = 1; i <= ethPcN ; i++){
+            var line = genLine( [[ethData1st, supplyStart*0.01*i], [ethDataLast, supplyEnd*0.01*i]]
+                                  , i + "%" + ((i==ethPcN)?" ETH supply":"")
                                   , pcCol
                                   , {x: "left", link: "right", y: 1, py: 13, px: 15, c: "fadeLabel"}
                                   );
@@ -650,16 +671,16 @@ getData("volhistory", function(data, status){
         
         new plotGraph("graphBoxEth", allLines, 0, "Block", "Ether", function(n){
             return (Math.round(n/100000)/10).toLocaleString() + "M";
-        }, {button: {text: "Show time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
+        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
                                       , disable: function(scope){this.changeTickFormat(undefined, 150, "Block");}}});
                                       
         /*new plotGraph("graphBox", allLines, 0, "Block", "Ether", function(n){
             return (Math.round(n/100000)/10).toLocaleString() + "M";
-        }, {button: {text: "Show time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
+        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
                                       , disable: function(scope){this.changeTickFormat(undefined, 150, "Block");}}});*/
-    });
+    }, true);
 
-});
+}, true);
 
 </script>
 <script>
