@@ -143,7 +143,8 @@ function blockToTime(b, num){
        bl = b[b.length-1];
     }
     else{
-       var n = num - b[0][0] / 1000;
+       var n = (num - b[0][0]) / 1000;
+       n = Math.floor(n);
        bf = b[n];
        bl = b[n+1];
     }
