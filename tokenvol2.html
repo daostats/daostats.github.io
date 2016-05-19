@@ -435,12 +435,12 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         self.xAxis
             .scale(self.x)
             .ticks(xTickCount)
-            .tickFormat()
+            .tickFormat(null)
 
         self.xAxis2
             .scale(self.x2)
             .ticks(xTickCount)
-            .tickFormat();
+            .tickFormat(null);
 
         if(brushAxisfn !== undefined){
             brushAxisfn.call(this, this.xAxis2);
@@ -448,7 +448,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         else{
             this.xAxis2
                 .ticks(xTickCount)
-                .tickFormat();
+                .tickFormat(null);
         }
             //.tickSize(0)
             //.tickPadding(8);
