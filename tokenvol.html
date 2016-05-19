@@ -28,10 +28,10 @@
 .axis line {
   fill: none;
   stroke: #000;
-  /*shape-rendering: crispEdges;*/
+  shape-rendering: crispEdges;
 }
-
-
+  
+  
 .line {
   fill: none;
   stroke: steelblue;
@@ -40,7 +40,7 @@
 }
 
 .y .tick line{
-    opacity: 0.2;
+    opacity: 0.3;
   }
 
 
@@ -73,8 +73,10 @@
   shape-rendering: crispEdges;
 }
 
-.clickable{
-    cursor: pointer;
+.labelBackground{
+  opacity: 0.5;
+  fill: #fff;
+  shape-rendering: crispEdges;
 }
 
 </style>
@@ -267,9 +269,13 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         if(v > volMax) volMax = v;
         else if(v < volMin) volMin = v;
     }
+    
+    var wH = window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
 
     var boxW = parseInt(d3.select('#graphBoxEth').style('width'), 10);
-    var boxH = 500;
+    var boxH = wH - 150;
 
     var margin = {top: 20, right: 30, bottom: 55, left: 50},
         width = boxW - margin.left - margin.right,
@@ -439,12 +445,12 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         self.xAxis
             .scale(self.x)
             .ticks(xTickCount)
-            .tickFormat(function(a){return a;})
+            .tickFormat(null)
 
         self.xAxis2
             .scale(self.x2)
             .ticks(xTickCount)
-            .tickFormat(function(a){return a;});
+            .tickFormat(null);
 
         if(brushAxisfn !== undefined){
             brushAxisfn.call(this, this.xAxis2);
@@ -452,7 +458,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         else{
             this.xAxis2
                 .ticks(xTickCount)
-                .tickFormat(function(a){return a;});
+                .tickFormat(null);
         }
             //.tickSize(0)
             //.tickPadding(8);
@@ -525,6 +531,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
 
     }
 
+    var labelContainer = svg.append("g");
 
     lines.forEach(function(thisLine, i){
 
@@ -546,10 +553,13 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             p.style("stroke", thisLine.colour);
         }
 
-        var t = false;
+        var tg = false;
         if(thisLine.textLabel !== undefined){
             var l = thisLine.textLabel;
-            t = svg.append("text")
+            tg = labelContainer.append("g")
+            var r = tg.append("rect");
+            
+            var t = tg.append("text")
                .text(l["text"] === undefined ? thisLine.name : l["text"]);
 
             if (l.link == "abs"){
@@ -571,6 +581,17 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             if(l.c !== undefined){
                 t.classed(l.c, true);
             }
+            
+            var bbox = t.node().getBBox();
+            var tWidth = bbox.width-1
+            var tHeight = bbox.height-1
+            
+            r.attr("x", t.attr("x"))
+             .attr("y", t.attr("y") - tHeight+1)
+             .attr("width", tWidth)
+             .attr("height", tHeight)
+             .classed("labelBackground", true)
+            
         }
 
         if(thisLine.legend !== undefined){
@@ -581,6 +602,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                     .attr("class", "legend")    // style the legend
                     .style("fill", thisLine.colour)
                     .text(thisLine.name);
+                    
 
                 if (thisLine.legend.toggle){
                     label.on("click", (function(lineDOM){return function(){
@@ -595,13 +617,12 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                         d3.select(this).style("opacity", newOpacity*0.5 + 0.5);
                         // Update whether or not the elements are active
                         lineDOM.active = active;
-                        }}(p)))
-                     .classed("clickable", true);
+                        }}(p)));
                 }
             }
             else{
                 p.classed("lineGroup-" + cleanGraphClass(thisLine.legend.group), true);
-                if(t != false) t.classed("lineGroup-" + cleanGraphClass(thisLine.legend.group), true);
+                if(tg != false) tg.classed("lineGroup-" + cleanGraphClass(thisLine.legend.group), true);
             }
         }
 
@@ -615,8 +636,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             .attr("y", height + (margin.bottom) - 5)
             .attr("class", "legend")    // style the legend
             .style("fill", legendMap[lGroup].colour)
-            .text(lGroup)
-            .classed("clickable", true);
+            .text(lGroup);
 
 
         label.on("click", function(){
@@ -799,7 +819,7 @@ getData("volhistory", function(data, status){
                                     .ticks(getNDIntervals(n))
                                     .tickFormat(d3.time.format('%b %d'));
                             }, "xTime", 180, "Time");}
-                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 150, "Block");}}});
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
 
     getData("bal", function(eth, status){
 
@@ -887,7 +907,7 @@ getData("volhistory", function(data, status){
                                     .ticks(getNDIntervals(n))
                                     .tickFormat(d3.time.format('%b %d'));
                             }, "xTime", 180, "Time");}
-                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 150, "Block");}}});
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
 
     }, true);
     }, true);
