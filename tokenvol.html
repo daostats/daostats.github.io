@@ -73,6 +73,10 @@
   shape-rendering: crispEdges;
 }
 
+.clickable{
+    cursor: pointer;
+}
+
 </style>
 
 </head>
@@ -591,7 +595,8 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                         d3.select(this).style("opacity", newOpacity*0.5 + 0.5);
                         // Update whether or not the elements are active
                         lineDOM.active = active;
-                        }}(p)));
+                        }}(p)))
+                     .classed("clickable", true);
                 }
             }
             else{
@@ -610,7 +615,8 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             .attr("y", height + (margin.bottom) - 5)
             .attr("class", "legend")    // style the legend
             .style("fill", legendMap[lGroup].colour)
-            .text(lGroup);
+            .text(lGroup)
+            .classed("clickable", true);
 
 
         label.on("click", function(){
