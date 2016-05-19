@@ -435,12 +435,12 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         self.xAxis
             .scale(self.x)
             .ticks(xTickCount)
-            .tickFormat(null)
+            .tickFormat(function(a){return a;})
 
         self.xAxis2
             .scale(self.x2)
             .ticks(xTickCount)
-            .tickFormat(null);
+            .tickFormat(function(a){return a;});
 
         if(brushAxisfn !== undefined){
             brushAxisfn.call(this, this.xAxis2);
@@ -448,7 +448,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         else{
             this.xAxis2
                 .ticks(xTickCount)
-                .tickFormat(null);
+                .tickFormat(function(a){return a;});
         }
             //.tickSize(0)
             //.tickPadding(8);
@@ -793,7 +793,7 @@ getData("volhistory", function(data, status){
                                     .ticks(getNDIntervals(n))
                                     .tickFormat(d3.time.format('%b %d'));
                             }, "xTime", 180, "Time");}
-                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 150, "Block");}}});
 
     getData("bal", function(eth, status){
 
@@ -881,7 +881,7 @@ getData("volhistory", function(data, status){
                                     .ticks(getNDIntervals(n))
                                     .tickFormat(d3.time.format('%b %d'));
                             }, "xTime", 180, "Time");}
-                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 150, "Block");}}});
 
     }, true);
     }, true);
