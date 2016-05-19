@@ -47,7 +47,7 @@
 .fadeLabel{
     opacity: 0.75;
   }
-  
+
 .legend {
     font-size: 12px;
     font-weight: bold;
@@ -73,7 +73,7 @@
   shape-rendering: crispEdges;
 }
 
-</style>    
+</style>
 
 </head>
 <body>
@@ -102,15 +102,15 @@
         </div><!--/.nav-collapse -->
       </div>
     </nav>
-    
-    
-    
+
+
+
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
       <a name="tknGraph"></a>
       <h3>Number of tokens in existence <a href="#tknGraph"><span class="glyphicon glyphicon-link" aria-hidden="true"></span></a></h3>
-      
+
       <div id="graphBox" class="graph">
       </div>
       <a name="ethGraph"></a>
@@ -119,12 +119,12 @@
       <div id="graphBoxEth" class="graph">
       </div>
       </div>
- 
+
       </div>
-      
+
     </div><!-- Container end -->
 
-    
+
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
 
@@ -132,60 +132,153 @@
 //data = [[0, 0], [1, 5], [2, 10], [3, 11], [4, 5], [5, 20]];
 
 function blockToTime(num){
-    t1200000 = 1458700607;
-    t1500000 = 1462959933;
-    
-    var diff = t1500000 - t1200000;
-    
-    var offset = num - 1200000;
-    
-    var toffset = offset * diff/300000;
-    
-    var t = toffset + t1200000
-    
+    var b = blockTimeArray;
+
+
+    var bf, bl;
+    if(num < b[0][0]){
+        bf = b[0];
+        bl = b[1];
+    }
+    else if(num >= b[b.length-1][0]){
+       bf = b[b.length-2];
+       bl = b[b.length-1];
+    }
+    else{
+       var n = (num - b[0][0]) / 1000;
+       n = Math.floor(n);
+       bf = b[n];
+       bl = b[n+1];
+    }
+
+    var distance = 1000;
+    var tdiff = bl[1] - bf[1];
+    var factor = (num - bf[0])/distance;
+
+    var t = factor * tdiff + bf[1];
+
 
     close = new Date(t * 1000);
-    var y = close.getUTCFullYear();
-    var mo = padTime(close.getUTCMonth()+1);
-    var d = padTime(close.getUTCDate());
-    var h = padTime(close.getUTCHours());
-    var m = padTime(close.getUTCMinutes());
-    var s = padTime(close.getUTCSeconds());
-    
-    ctext = y + "-" + mo + "-" + d + " " + h + ":" + m;
-    return ctext;
+
+    return close;
 }
 
 
+
+function get10AMIntervals(start, stop, interval){
+    if(interval === undefined) interval = 24;
+    var d = d3.time.hours.utc(new Date(start.getTime() - (1000*60*60*9)), new Date(stop.getTime() - (1000*60*60*9)), interval);
+
+    d.forEach(function(e, i, h){
+        h[i].setUTCHours(e.getUTCHours() + 9);
+        if(h[i].getTime() > stop.getTime()){
+            h[i] = new Date(h[0].getTime());
+            h[i].setUTCHours(h[i].getUTCHours() - interval);
+
+        }
+    });
+
+    return d;
+}
+function get10HIntervals(start, stop){
+    return get10AMIntervals(start, stop, 12);
+}
+function getDIntervals(start, stop, interval){
+    if(interval === undefined) interval = 1;
+
+    var d = d3.time.days.utc(new Date(start.getTime() - (1000*60*60*9)), new Date(stop.getTime() - (1000*60*60*9)), interval);
+    d.forEach(function(e, i, h){
+        h[i].setUTCHours(e.getUTCHours() + 9);
+
+        if(h[i].getTime() > stop.getTime()){
+            h[i] = new Date(h[0].getTime());
+            h[i].setUTCDate(h[i].getUTCDate() - interval);
+        }
+    });
+
+    return d;
+
+}
+
+function getNDIntervals(interval){
+    return function(a,b){return getDIntervals(a, b, interval);}
+}
+
+function getXRatio(range, width){
+    var diff = Math.floor((range[1].getTime() - range[0].getTime())/1000)
+    var r = diff/width; //Seconds per pixel
+
+    return r;
+}
+
+function adjustAxisLabels(axis, range, width){
+
+    var r = getXRatio(range, width);
+
+    var n = Math.floor(width/100);
+
+    if (r < 15){
+        axis.ticks(function(a,b){return d3.time.minutes(a, b, 30)})
+            .tickFormat(d3.time.format.utc("%b %d %H:%M"))
+    }
+    else if (r < 30){
+        axis.ticks(d3.time.hours)
+            .tickFormat(d3.time.format.utc("%b %d %H:%M"))
+    }
+    else if (r < 60){
+        axis.ticks(function(a,b){return d3.time.hours(a, b, 2)})
+            .tickFormat(d3.time.format.utc("%b %d %H:%M"))
+    }
+    else if (r < 360){
+        axis.ticks(get10HIntervals)
+            .tickFormat(d3.time.format.utc("%b %d %H:%M"))
+    }
+    else if (r < 720){
+        axis.ticks(get10AMIntervals)
+            .tickFormat(d3.time.format.utc("%b %d %H:%M"))
+    }
+    else{
+        var i = Math.ceil(r/720);
+        axis.ticks(getNDIntervals(i))
+            .tickFormat(d3.time.format.utc("%b %d %H:%M"))
+    }
+
+
+}
+
 function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
     var self = this;
-    
+
     if (options === undefined) options = {};
 
-    var reference = lines[dd].data;
+    var reference = lines[dd];
+    var refData = reference.data;
 
-    var bStart = reference[0][0];
-    var bEnd = reference[reference.length-1][0];
-    var volMin = reference[0][1];
-    var volMax = reference[0][1];
-    for(var i=0; i<reference.length; i++){
-        v = reference[i][1];
+    var bStart = refData[0].xNum;
+    var bEnd = refData[refData.length-1].xNum;
+    var volMin = refData[0].y;
+    var volMax = refData[0].y;
+    for(var i=0; i<refData.length; i++){
+        v = refData[i].y;
         if(v > volMax) volMax = v;
         else if(v < volMin) volMin = v;
     }
 
     var boxW = parseInt(d3.select('#graphBoxEth').style('width'), 10);
     var boxH = 500;
-    
+
     var margin = {top: 20, right: 30, bottom: 55, left: 50},
         width = boxW - margin.left - margin.right,
         height = boxH - margin.top - margin.bottom;
-        
+
+    self.width = width;
+    self.height = height;
+
     var marginBrush = {bottom: 30};
     var height2 = 50;
-    
+
     xTickCount = width / 100;
-    
+
     this.axisUpdateFns = [];
     this.updateAxes = function(){
         for(var i = 0; i < this.axisUpdateFns.length; i++){
@@ -193,32 +286,62 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         }
     }
 
+    var xNum = false;
+    var xTime = false;
+    if (reference.type == "num" || reference.type == "dual") xNum = true;
+    if (reference.type == "time" || reference.type == "dual") xTime = true;
 
-    var x = d3.scale.linear()
-        .range([0, width])
-        .domain([bStart, bEnd]);
-        
-    var x2 = d3.scale.linear()
-        .range([0, width])
-        .domain([bStart, bEnd]);
+    var x, x2;
 
-    var y = d3.scale.linear()
-        .range([height, 0])
-        .domain([0, volMax]);
-        
-    var y2 = d3.scale.linear()
-        .range([height2, 0])
-        .domain([0, volMax]);
+    if (xNum){
+        var xScaleNum = this.xScaleNum = d3.scale.linear()
+            .range([0, width])
+            .domain([bStart, bEnd]);
+
+        var xScaleNum2 = this.xScaleNum2 = d3.scale.linear()
+            .range([0, width])
+            .domain([bStart, bEnd]);
+
+        self.x = xScaleNum;
+        self.x2 = xScaleNum2;
+
+        self.xAxisMode = "xNum";
+
+    }
+
+    if(xTime){
+        var d = [blockToTime(bStart),  blockToTime(bEnd)]
+        var xScaleTime = this.xScaleTime = d3.time.scale.utc()
+            .range([0, width])
+            .domain(d);
+
+        var xScaleTime2 = this.xScaleTime2 = d3.time.scale.utc()
+            .range([0, width])
+            .domain(d);
+
+    }
+
+
+    var y = self.y = d3.scale.linear()
+        .domain([0, volMax*1.1])
+        .range([height, 0]);
+
+    var y2 = self.y2 = d3.scale.linear()
+        .domain([0, volMax*1.1])
+        .range([height2, 0]);
+
 
     var xAxis = this.xAxis = d3.svg.axis()
-        .scale(x)
+        .scale(this.x)
         .orient("bottom")
         .ticks(xTickCount);
         //.tickFormat(blockToTime);
-        
-    
+
+
+
+
     var xAxis2 = this.xAxis2 = d3.svg.axis()
-        .scale(x2)
+        .scale(this.x2)
         .orient("bottom")
         .ticks(xTickCount);
 
@@ -231,29 +354,39 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         .tickPadding(10);
 
     var line = d3.svg.line()
-        .x(function(d) { return x(d[0]); })
-        .y(function(d) { return y(d[1]); });
-        
+        .x(function(d) { return self.x(d[self.xAxisMode]); })
+        .y(function(d) { return self.y(d.y); });
+
     var lineBrush = d3.svg.line()
-        .x(function(d) { return x(d[0]); })
-        .y(function(d) { return y2(d[1]); });
-    
-    var brush = d3.svg.brush()
-        .x(x2)
-        .on("brush", function(){
-            //var brush = this;
-            x.domain(brush.empty() ? x.domain() : brush.extent());
-            
-            d3.selectAll("#" + id + " .graphSvg .line").attr("d", line);
-            d3.select("#" + id + " .graphSvg .x.axis").call(self.xAxis);
-        });
+        .x(function(d) { return self.x2(d[self.xAxisMode]); })
+        .y(function(d) { return self.y2(d.y); });
+
+
+    this.rebrush = function(){
+
+        self.x.domain(brush.empty() ? self.x2.domain() : brush.extent());
+
+        if(self.xAxisMode == "xTime"){
+            adjustAxisLabels(self.xAxis, self.x.domain(), width)
+
+        }
+
+        d3.selectAll("#" + id + " .graphSvg .line").attr("d", line);
+        d3.select("#" + id + " .graphSvg .x.axis").call(self.xAxis);
+
+    }
+
+    var brush = self.brush = d3.svg.brush()
+        .x(this.x2)
+        .on("brush", self.rebrush)
+        .on("brushend", self.rebrush)
     /*
     var svg = d3.select("#graphBox").append("svg")
         .attr("width", width + margin.left + margin.right)
         .attr("height", height + margin.top + margin.bottom)
       .append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");*/
-        
+
     var svg = d3.select("#"+id)
        .append("svg")
        //responsive SVG needs these 2 attributes and no width and height attr
@@ -262,65 +395,94 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
        .attr("height", height + margin.top + margin.bottom)
        .classed("graphSvg", true).append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        
+
     svg.append("defs").append("clipPath")
     .attr("id", "clip")
   .append("rect")
     .attr("width", width)
     .attr("height", height);
-        
-    x.domain(d3.extent(lines[dd].data, function(d) { return d[0]; }));
-    y.domain([0, d3.max(lines[dd].data, function(d) { return d[1]; })*1.2]);
+
 
     var xAxisElem = this.xAxisElem = svg.append("g")
       .attr("class", "x axis")
       .attr("transform", "translate(0," + height + ")")
       .call(this.xAxis);
-      
+
     var xAxisLabel = this.xAxisLabel = xAxisElem.append("text")
       .attr("y", 32)
       .attr("x", width/2)
       .text(xLabel);
-      
-    this.axisUpdateFns.push(function(){
-       this.xAxisElem.call(this.xAxis); 
-    });
-      
-    this.changeTickFormat = function(formatfn, size, label){
-        xTickCount = Math.round(width / size);
-        
-        this.xAxis.ticks(xTickCount);
-        this.xAxis.tickFormat(formatfn);
-        
-        this.xAxis2.ticks(xTickCount);
-        this.xAxis2.tickFormat(formatfn);
-        
-        this.xAxisLabel.text(label);
-        
-        this.updateAxes();
-    }
-    
 
-            
-    
-      
+    this.axisUpdateFns.push(function(){
+       this.xAxisElem.call(this.xAxis);
+    });
+
+    this.changeTickFormat = function(scalefn, brushAxisfn, axisMode, size, label){
+        var xTickCount = Math.round(width / size);
+
+        self.xAxisMode = axisMode;
+
+        if (scalefn !== undefined){
+            var axisScale = scalefn.call(this);
+            self.x = axisScale[0];
+            self.x2 = axisScale[1];
+        }
+        else{
+            self.x = self.xScaleNum;
+            self.x2 = self.xScaleNum2;
+        }
+
+        self.xAxis
+            .scale(self.x)
+            .ticks(xTickCount)
+            .tickFormat(null)
+
+        self.xAxis2
+            .scale(self.x2)
+            .ticks(xTickCount)
+            .tickFormat(null);
+
+        if(brushAxisfn !== undefined){
+            brushAxisfn.call(this, this.xAxis2);
+        }
+        else{
+            this.xAxis2
+                .ticks(xTickCount)
+                .tickFormat(null);
+        }
+            //.tickSize(0)
+            //.tickPadding(8);
+
+        self.brush.x(self.x2)
+
+        this.xAxisLabel.text(label);
+
+        this.updateAxes();
+
+        self.rebrush();
+    }
+
+
+
+
+
     var yAxisElem = this.yAxisElem = svg.append("g")
       .attr("class", "y axis")
       .call(yAxis);
-      
+
     this.axisUpdateFns.push(function(){
-       this.yAxisElem.call(this.yAxis); 
+       this.yAxisElem.call(this.yAxis);
     });
-      
-      
+
+
     yAxisElem.append("text")
       .attr("transform", "rotate(-90)")
       .attr("y", 6)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
       .text(yLabel);
-    
-    
+
+
     var legendSpace = 0;
     var legendItems = 0;
     var legendMap = {};
@@ -339,11 +501,11 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                 legendItems += 1;
             }
         }
-        
+
         if(thisLine.brush !== undefined) useBrush = true;
     });
     legendSpace = width / legendSpace;
-   
+
     var brushSvg;
     if(useBrush){
        brushSvg = this.brushSvg = d3.select("#"+id)
@@ -354,32 +516,32 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
        .attr("height", height2 + marginBrush.bottom)
        .classed("brushSvg", true).append("g")
         .attr("transform", "translate(" + margin.left + ",0)");
-        
-      
-    
+
+
+
     }
-    
-    
+
+
     lines.forEach(function(thisLine, i){
-        
+
         var p =svg.append("path")
           .datum(thisLine.data)
           .attr("class", "line")
           .attr("d", line);
-          
+
         if(thisLine.brush){
             brushSvg.append("path")
                 .datum(thisLine.data)
                 .attr("class", "line")
                 .attr("d", lineBrush);
-        
+
         }
-          
-          
+
+
         if(thisLine.colour !== undefined){
             p.style("stroke", thisLine.colour);
         }
-     
+
         var t = false;
         if(thisLine.textLabel !== undefined){
             var l = thisLine.textLabel;
@@ -391,7 +553,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             }
             else if (l.link == "right"){
                 var d = thisLine.data;
-                t.attr("y", y(d[d.length-1][1]) + l["py"]);
+                t.attr("y", y(d[d.length-1].y) + l["py"]);
             }
 
             if (l.x == "right"){
@@ -401,12 +563,12 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                 var d = thisLine.data[t.y];
                 t.attr("x", 10 + l.px);
             }
-            
+
             if(l.c !== undefined){
                 t.classed(l.c, true);
             }
         }
-        
+
         if(thisLine.legend !== undefined){
             if(thisLine.legend.group === undefined){
                 var label = svg.append("text")
@@ -414,19 +576,19 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                     .attr("y", height + (margin.bottom) - 5)
                     .attr("class", "legend")    // style the legend
                     .style("fill", thisLine.colour)
-                    .text(thisLine.name); 
-                    
+                    .text(thisLine.name);
+
                 if (thisLine.legend.toggle){
                     label.on("click", (function(lineDOM){return function(){
-                        // Determine if current line is visible 
+                        // Determine if current line is visible
                         console.log(lineDOM);
                         var active   = lineDOM.active ? false : true,
-                        newOpacity = active ? 0 : 1; 
+                        newOpacity = active ? 0 : 1;
                         // Hide or show the elements based on the ID
                         lineDOM
-                            .style("opacity", newOpacity); 
-                            
-                        d3.select(this).style("opacity", newOpacity*0.5 + 0.5); 
+                            .style("opacity", newOpacity);
+
+                        d3.select(this).style("opacity", newOpacity*0.5 + 0.5);
                         // Update whether or not the elements are active
                         lineDOM.active = active;
                         }}(p)));
@@ -437,55 +599,49 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                 if(t != false) t.classed("lineGroup-" + cleanGraphClass(thisLine.legend.group), true);
             }
         }
-        
+
     });
-    
+
     Object.keys(legendMap).forEach(function(lGroup, j){
         var i = j + legendItems;
-        
+
         var label = svg.append("text")
             .attr("x", (legendSpace/2)+i*legendSpace)  // space legend
             .attr("y", height + (margin.bottom) - 5)
             .attr("class", "legend")    // style the legend
             .style("fill", legendMap[lGroup].colour)
             .text(lGroup);
-            
-        
+
+
         label.on("click", function(){
-            // Determine if current line is visible 
+            // Determine if current line is visible
             l = legendMap[lGroup];
             console.log(l);
             lClass = "lineGroup-" + cleanGraphClass(lGroup);
-            
+
             var active   = l.active ? false : true;
-            
+
             console.log(active, l.active);
-            newOpacity = active ? 0 : 1; 
+            newOpacity = active ? 0 : 1;
             // Hide or show the elements based on the ID
             d3.selectAll("." + lClass)
-                .style("opacity", newOpacity); 
-                
-                
-            d3.select(this).style("opacity", newOpacity*0.5 + 0.5); 
+                .style("opacity", newOpacity);
+
+
+            d3.select(this).style("opacity", newOpacity*0.5 + 0.5);
             // Update whether or not the elements are active
             l.active = active;
             console.log(l);
         });
-    }, this);   
-    console.log("Brush: ", useBrush);
+    }, this);
     if(useBrush){
-    
+
       var brushAxisElem = this.brushAxisElem = this.brushSvg.append("g")
           .attr("class", "x axis")
           .attr("transform", "translate(0," + height2 + ")")
           .call(this.xAxis2);
-          
-      console.log(this.brushSvg)
-          
-      
-          
+
       this.axisUpdateFns.push(function(){
-        console.log(xAxis2);
         this.brushAxisElem.call(this.xAxis2);
       });
 
@@ -496,10 +652,10 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
           .attr("y", -6)
           .attr("height", height2 + 7);
     }
-    
-    
-    
-    
+
+
+
+
     var rectSize = function(r, w, h, m){
             r.transition()
                 .attr("width", w)
@@ -507,13 +663,13 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                 .attr("height", h)
                 .attr("y", height - h - m);
     };
-    
-    
+
+
     if(options.button !== undefined){
         var gThis = this;
-        
+
         var button = options.button;
-        
+
         var buttonMargin = 10;
         var buttonWidth = 16;
         var buttonHeight = 16;
@@ -521,14 +677,14 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         var buttonFullHeight = 20;
         var optionItem = svg.append("g")
             .style("opacity", 0.5);
-        
+
             optionItem.append("rect")
             .classed("optionButton", true)
             .attr("x", width - buttonWidth - buttonMargin)
             .attr("y", height - buttonHeight - buttonMargin)
             .attr("width", buttonWidth)
             .attr("height", buttonHeight);
-            
+
             optionItem.on("mouseover", function(){
                 rectSize(d3.select(this).select(".optionButton"), buttonFullWidth, buttonFullHeight, buttonMargin);
                 rectSize(d3.select(this).select(".optionActive"), buttonWidth/2, buttonFullHeight, buttonMargin);
@@ -543,25 +699,25 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             })
             .on("click", function(){
                 this.active = !this.active;
-                
+
                 var active = d3.select(this).select(".optionActive");
-                
-                
+
+
                 if(this.active){
                         active.style("opacity", 0.5);
-                        
+
                         button.enable.apply(gThis, gThis);
                         //changeTickFormat.apply(blockToTime, 200);
-                        
+
                 }
                 else{
                     active.style("opacity", 0);
-                    
+
                     button.disable.apply(gThis, gThis);
                 }
-                
+
                 //console.log(this.active);
-            
+
             });
             optionItem.append("rect")
             .classed("optionActive", true)
@@ -578,10 +734,30 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             .style("opacity", 0)
             .text(button.text);
     }
-    
+
 }
 
 function genLine(data, name, colour, textLabel){
+
+    var d = []
+
+    for(var i=0; i<data.length; i++){
+        d.push({
+            xNum: data[i][0],
+            xTime: blockToTime(data[i][0]),
+            y: data[i][1]
+        })
+    }
+
+    return {
+        data: d,
+        name: name,
+        colour: colour,
+        textLabel: textLabel
+    };
+}
+
+function genLineDict(data, name, colour, textLabel){
 
     return {
         data: data,
@@ -593,80 +769,121 @@ function genLine(data, name, colour, textLabel){
 
 getData("volhistory", function(data, status){
 
+    getData("blocktime", function(bdata, bstatus){
+
+    blockTimeArray = bdata;
+
     var tokenLine = genLine(data);
     tokenLine.brush = true;
-    new plotGraph("graphBox", [tokenLine], 0, "Block", "Volume", function(n){
+    tokenLine.type = "dual";
+    new plotGraph("graphBox", [tokenLine], 0, "Block", "Volume",
+            function(n){
+            //console.log(n);
             return Math.round(n/1000000).toLocaleString() + "M";
-        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
-                                      , disable: function(scope){this.changeTickFormat(undefined, 100, "Block");}}});
-    
+        },
+        {button: {text: "Show UTC time",
+                     enable: function(){
+                        this.changeTickFormat(
+                            function(){return [this.xScaleTime, this.xScaleTime2];},
+                            function(axis){
+                                console.log(this);
+                                var r = getXRatio(this.xScaleTime2.domain(), this.width);
+                                var n = Math.floor(r / 1000);
+                                axis
+                                    .ticks(getNDIntervals(n))
+                                    .tickFormat(d3.time.format('%b %d'));
+                            }, "xTime", 180, "Time");}
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
+
     getData("bal", function(eth, status){
 
-        /*data = [[0,0]];
-        eth = [[1,1],[2,1],[3,3]];*/
-        
         var startEth = 99999999;
         if (eth.length != 0) startEth = eth[0][0];
-        
-        
+
+
         var ethData = [];
-        
+
         var i=0;
         while(data[i][0] < startEth){
-            ethData.push([data[i][0], data[i][1] * 0.01, 0]);
-            
+            var ed = Object.assign({}, tokenLine.data[i]);
+            ed.y *= 0.01;
+            ed.y2 = 0;
+            ed.y3 = 0;
+
+            ethData.push(ed);
+
             i++;
             if(i == data.length) break;
         }
 
+        var ethL = []
         for(var i=0; i < eth.length; i++){
             eth[i][1] += eth[i][2] + eth[i][3];
+            ethL.push({ xNum: eth[i][0],
+                        xTime: blockToTime(eth[i][0]),
+                        y: eth[i][1],
+                        y2: eth[i][2],
+                        y3: eth[i][3]})
+
         }
-        
-        
-        ethData = ethData.concat(eth);
-        
-        ethData1st = ethData[0][0];
-        ethDataLast = ethData[ethData.length-1][0];
-        
+
+
+        ethData = ethData.concat(ethL);
+
+        ethData1st = ethData[0].xNum;
+        ethDataLast = ethData[ethData.length-1].xNum;
+
         //console.log(labels);
-        
-        ethDataLine = genLine(ethData, "Balance");
+
+        ethDataLine = genLineDict(ethData, "Balance");
         ethDataLine.legend = {toggle: false};
         ethDataLine.brush = true;
-        
+        ethDataLine.type = "dual";
+
 	var supplyStart = ethSupply(ethData1st);
 	var supplyEnd = ethSupply(ethDataLast);
 
-	var ethPcN = Math.floor(100*(ethData[ethData.length-1][1] / supplyEnd))+1;
+
+    var timeStart = blockToTime(ethData1st);
+    var timeEnd = blockToTime(ethDataLast);
+
+	var ethPcN = Math.floor(100*(ethData[ethData.length-1].y / supplyEnd))+1;
 
         ethpcLines = [];
         pcCol = "rgba(150, 80, 50, 0.7)";
         for(var i = 1; i <= ethPcN ; i++){
-            var line = genLine( [[ethData1st, supplyStart*0.01*i], [ethDataLast, supplyEnd*0.01*i]]
+            var line = genLineDict( [{xNum: ethData1st, xTime: timeStart, y: supplyStart*0.01*i}, {xNum: ethDataLast, xTime: timeEnd, y: supplyEnd*0.01*i}]
                                   , i + "%" + ((i==ethPcN)?" ETH supply":"")
                                   , pcCol
                                   , {x: "left", link: "right", y: 1, py: 13, px: 15, c: "fadeLabel"}
                                   );
             line.legend = {toggle: true, group: "Percent Lines"};
-                                  
+
             ethpcLines.push(line);
-                                  
+
         }
-        
+
         allLines = ([ethDataLine]).concat(ethpcLines);
 
-	
-        
+
+
+
         new plotGraph("graphBoxEth", allLines, 0, "Block", "Ether", function(n){
             return (Math.round(n/100000)/10).toLocaleString() + "M";
-        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
-                                      , disable: function(scope){this.changeTickFormat(undefined, 150, "Block");}}});
-                                      
-        /*new plotGraph("graphBox", allLines, 0, "Block", "Ether", function(n){
-            return (Math.round(n/100000)/10).toLocaleString() + "M";
-        }, {button: {text: "Show UTC time", enable: function(scope){this.changeTickFormat(blockToTime, 180, "Time");}
-                                      , disable: function(scope){this.changeTickFormat(undefined, 150, "Block");}}});*/
+        }, {button: {text: "Show UTC time",
+                     enable: function(){
+                        this.changeTickFormat(
+                            function(){return [this.xScaleTime, this.xScaleTime2];},
+                            function(axis){
+                                var r = getXRatio(this.xScaleTime2.domain(), this.width);
+                                var n = Math.floor(r / 1000);
+                                axis
+                                    .ticks(getNDIntervals(n))
+                                    .tickFormat(d3.time.format('%b %d'));
+                            }, "xTime", 180, "Time");}
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
+
+    }, true);
     }, true);
 
 }, true);
