@@ -342,7 +342,6 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         width = boxW - margin.left - margin.right,
         height = boxH - margin.top - margin.bottom;
         
-    console.log(margin);
 
     self.width = width;
     self.height = height;
@@ -671,7 +670,6 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
 
     var labelContainer = svg.append("g");
     var legendCounter = 0;
-    console.log(self.y)
     lines.forEach(function(thisLine, i){
         
         
@@ -755,7 +753,6 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
 
         if(thisLine.legend !== undefined){
             if(thisLine.legend.group === undefined){
-                console.log("Legend", thisLine.name)
                 var label = svg.append("text")
                     .attr("x", (legendSpace/2)+legendCounter*legendSpace)  // space legend
                     .attr("y", height + (margin.bottom) - 5)
@@ -775,7 +772,6 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                     
                 legendCounter++;
                     
-                console.log(label, legendSpace);
                     
 
                 if (thisLine.legend.toggle){
@@ -817,14 +813,13 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         
         label.transition()
                     .style("opacity", 0)
+                    .delay(500)
                     .duration(1000)
                     .transition()
                     .duration(1000)
                     .style("opacity", 1)
                     .text(lGroup);
             
-        label.transition()
-            .style("opacity", 1)
 
 
         label.on("click", function(){
@@ -1045,6 +1040,7 @@ getData("volhistory", function(data, status){
     tokenLine.type = "dual";
     tokenLine.legend = {toggle: true};
     
+    console.log(tokenLine.data[0].xTime);
     var barStart = new Date(tokenLine.data[0].xTime.getTime());
     var dayStart = new Date(barStart.getTime())
     dayStart.setUTCHours(9);
@@ -1054,7 +1050,6 @@ getData("volhistory", function(data, status){
     if (barStart.getTime() > dayStart.getTime()) dayStart.setUTCDate(dayStart.getUTCDate() + 1);
     var bars = groupData(tokenLine.data, dayStart.getTime(), 1000*60*60*24);
     
-    console.log(bars);
     
     var gBars = genBarsDict(bars, "New Volume", "#B59647");
     gBars.position = "r";
@@ -1089,7 +1084,7 @@ getData("volhistory", function(data, status){
 
         var i=0;
         while(data[i][0] < startEth){
-            var ed = Object.assign({}, tokenLine.data[i]);
+            var ed = $.extend({}, tokenLine.data[i]);
             ed.y *= 0.01;
             ed.y2 = 0;
             ed.y3 = 0;
