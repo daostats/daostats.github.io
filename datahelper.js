@@ -1,6 +1,6 @@
 function getData(url, success, nocache){
     
-    if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
+    /*if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
             console.log("Fast mode");
             url = "https://raw.githubusercontent.com/daostats/daostats.github.io/master/" + url + ".js";
             
@@ -8,7 +8,9 @@ function getData(url, success, nocache){
             if(nocache != true) url += "?c=" + updateCycle;
     }
 
-    else url = url + ".js";
+    else*/ url = url + ".js";
+    
+    url = "https://daostats.github.io/" + url;
     
     console.log("Getting data at " + url);
     
@@ -131,7 +133,7 @@ function preferredBlockExplorer(){
         console.log(localStorage.explorer);
         if (exp == "chain" || exp == "undefined" || exp == undefined) return "https://etherchain.org/block/"
         else if(exp == "camp") return "https://live.ether.camp/block/"
-        else if(exp == "scan") return "https://etherscan.io/block/"
+        else if(exp == "scan") return "https://etherscan.io/block"
         else return localStorage.explorerBlock;
     }
     else return "https://etherchain.org/block/"
@@ -189,4 +191,30 @@ function cleanGraphClass(cname){
 
 function padTime(m){
     return ('0' + m).slice(-2);
+}
+
+function binaryIndexOf(searchElement, elementName) {
+    'use strict';
+ 
+    var minIndex = 0;
+    var maxIndex = this.length - 1;
+    var currentIndex;
+    var currentElement;
+ 
+    while (minIndex <= maxIndex) {
+        currentIndex = (minIndex + maxIndex) / 2 | 0;
+        currentElement = this[currentIndex][elementName];
+ 
+        if (currentElement < searchElement) {
+            minIndex = currentIndex + 1;
+        }
+        else if (currentElement > searchElement) {
+            maxIndex = currentIndex - 1;
+        }
+        else {
+            return currentIndex;
+        }
+    }
+ 
+    return maxIndex;
 }
