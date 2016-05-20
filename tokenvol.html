@@ -29,6 +29,8 @@
   fill: none;
   stroke: #000;
   shape-rendering: crispEdges;
+  
+    pointer-events:none;
 }
   
   
@@ -104,7 +106,28 @@
     padding-right: 0px;
     padding-left: 0px;
 }
+.tooltip{
+    
+  shape-rendering: crispEdges;
+}
+.tooltip rect{
+    fill: #fff;
+    stroke: #000;
 
+}
+
+.markerLine{
+    stroke: #000;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+    pointer-events:none;
+
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+  
+}
 </style>
 
 </head>
@@ -259,6 +282,148 @@ function getXRatio(range, width){
     var r = diff/width; //Seconds per pixel
 
     return r;
+}
+
+var month = new Array();
+month[0] = "January";
+month[1] = "February";
+month[2] = "March";
+month[3] = "April";
+month[4] = "May";
+month[5] = "June";
+month[6] = "July";
+month[7] = "August";
+month[8] = "September";
+month[9] = "October";
+month[10] = "November";
+month[11] = "December";
+
+function bindTooltip(line, data){
+    var self = this;
+    line.on("mousemove", function(){
+    
+        coordinates = d3.mouse(this);
+        var x = coordinates[0];
+        var y = coordinates[1];
+        
+        var s = self.x.invert(x);
+        
+        var i = binaryIndexOf.call(data, s, self.xAxisMode);
+        
+        var trueY = self.y(data[i].y);
+        
+        var rect = self.tooltip.style("opacity", 1).html("")
+            .append("rect")
+        
+        self.tooltip.append("text")
+            .attr("y", 85)
+            .attr("x", 10)
+            .text("Volume: " + Number(data[i].y).toLocaleString())
+            //.node().getBBox().width + 20;
+        var ttW = 180;
+        var ttH = 100;
+        
+        
+        rect.attr("width", ttW)
+            .attr("height", ttH);
+            
+        self.tooltip.append("text")
+            .attr("y", 65)
+            .attr("x", 10)
+            .text("Block: " + Number(data[i].xNum).toLocaleString());
+        
+        var date = data[i].xTime;
+        var day = date.getUTCDate();
+        var monthIdx = date.getUTCMonth();
+        var year = date.getUTCFullYear();
+        var hour = padTime(date.getUTCHours());
+        var mins = padTime(date.getUTCMinutes());
+        
+        self.tooltip.append("text")
+            .attr("y", 20)
+            .attr("x", ttW/2)
+            .attr("text-anchor", "middle")
+            .text(day + " " + month[monthIdx] + " " + year)
+            
+        self.tooltip.append("text")
+            .attr("y", 40)
+            .attr("x", ttW/2)
+            .attr("text-anchor", "middle")
+            .text(hour + ":" + mins);
+            
+        
+        self.svgMarkerLineX.style("visibility", "visible");
+        self.svgMarkerLineY.style("visibility", "visible");
+            
+        self.svgMarkerLineY
+            .attr("x1", x)
+            .attr("y1", 0)
+            .attr("x2", x)
+            .attr("y2", self.height);
+        self.svgMarkerLineX
+            .attr("x1", 0)
+            .attr("y1", trueY)
+            .attr("x2", self.width)
+            .attr("y2", trueY);
+            
+    });
+    
+    line.on("mouseleave", function(){
+        self.tooltip.style("opacity", 0);
+        self.svgMarkerLineX.style("visibility", "hidden");
+        self.svgMarkerLineY.style("visibility", "hidden");
+    });
+}
+
+function bindTooltipBar(){
+    var self = this;
+    return function(data){
+        var bar = d3.select(this);
+        
+        var rect = self.tooltip.style("opacity", 1).html("")
+            .append("rect")
+        
+        self.tooltip.append("text")
+            .attr("y", 65)
+            .attr("x", 10)
+            .text("New Volume: " + Number(data.y).toLocaleString())
+            //.node().getBBox().width + 20;
+        var ttW = 180;;
+        var ttH = 80;
+        
+        
+        rect.attr("width", ttW)
+            .attr("height", ttH);
+            
+        self.tooltip.append("text")
+            .attr("y", 45)
+            .attr("x", 10)
+            .text("Block: " + Number(data.xNum).toLocaleString());
+        
+        var date = data.xTime;
+        var day = date.getUTCDate();
+        var monthIdx = date.getUTCMonth();
+        var year = date.getUTCFullYear();
+        var hour = padTime(date.getUTCHours());
+        var mins = padTime(date.getUTCMinutes());
+        
+        self.tooltip.append("text")
+            .attr("y", 20)
+            .attr("x", ttW/2)
+            .attr("text-anchor", "middle")
+            .text(day + " " + month[monthIdx] + " " + year)
+    
+    
+    };
+}
+
+function bindTooltipBarLeave(){
+    var self = this;
+    return function(){
+        self.tooltip.style("opacity", 0);
+        self.svgMarkerLineX.style("visibility", "hidden");
+        self.svgMarkerLineY.style("visibility", "hidden");
+    };
 }
 
 function adjustAxisLabels(axis, range, width){
@@ -417,9 +582,9 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         var f = lm / rm;
         if (f < 1){
             f = 1/f;
-            f = Math.floor(f);
+            f = Math.ceil(f);
         }
-        else f = Math.ceil(f);
+        else f = Math.floor(f);
         
         yR = self.yR = d3.scale.linear()
         .domain([0, lm / f])
@@ -526,6 +691,11 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
      
     var svg = svgTop.append("g")
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        
+    self.overlay = svg.append("rect")
+      .attr("class", "overlay")
+      .attr("width", width)
+      .attr("height", height);
 
     svg.append("defs").append("clipPath")
     .attr("id", "clip" + id)
@@ -631,6 +801,9 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
       .style("text-anchor", "end")
       .text(yLabel[1]);
     }
+    
+    
+
 
     
 
@@ -697,6 +870,11 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
                     .attr("d", lineBrush);
 
             }
+            
+            if(i == dd[0]){
+                bindTooltip.call(self, p, thisLine.data);
+                bindTooltip.call(self, self.overlay, thisLine.data);
+            }
         }
         else{
             var pos = thisLine.position;
@@ -709,7 +887,9 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
               .attr("x", barXFunction)
               .attr("width", barWFunction)  
               .attr("y", pos == "l"?function(d) { return self.y(d.y); }:function(d) { return self.yR(d.y); } )
-              .attr("height",  pos == "l"?function(d) { return  height - self.y(d.y); }:function(d) { return  height - self.yR(d.y); }   );
+              .attr("height",  pos == "l"?function(d) { return  height - self.y(d.y); }:function(d) { return  height - self.yR(d.y); }   )
+              .on("mousemove", bindTooltipBar.call(self))
+              .on("mouseleave", bindTooltipBarLeave.call(self))
         
             colourAttrib = "fill";
         }
@@ -875,7 +1055,16 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
           .attr("height", height2 + 7);
     }
 
-
+    self.svgMarkerLineY = svg.append("line")
+            .classed("markerLine", true)
+    self.svgMarkerLineX = svg.append("line")
+            .classed("markerLine", true)
+            
+    self.tooltip = svg.append("g")
+        .attr("transform", "translate(55,50)")
+        .style("opacity", 1)
+        
+        .classed("tooltip", true)
 
 
     var rectSize = function(r, w, h, m){
@@ -1063,7 +1252,7 @@ getData("volhistory", function(data, status){
     var bars = groupData(tokenLine.data, dayStart.getTime(), 1000*60*60*24);
     
     
-    var gBars = genBarsDict(bars, "New Volume", "#B59647");
+    var gBars = genBarsDict(bars, "New Volume", "#C5B667");
     gBars.position = "r";
     gBars.legend = {toggle: true};
     
@@ -1141,10 +1330,11 @@ getData("volhistory", function(data, status){
 	var ethPcN = Math.floor(100*(ethData[ethData.length-1].y / supplyEnd))+1;
 
         ethpcLines = [];
-        pcCol = "rgba(150, 80, 50, 0.7)";
+        pcCol = "rgba(256, 70, 40, 0.9)";
         for(var i = 1; i <= ethPcN ; i++){
+            if(i%2 == 1) continue;
             var line = genLineDict( [{xNum: ethData1st, xTime: timeStart, y: supplyStart*0.01*i}, {xNum: ethDataLast, xTime: timeEnd, y: supplyEnd*0.01*i}]
-                                  , i + "%" + ((i==ethPcN)?" ETH supply":"")
+                                  , i + "%" + ((i>=ethPcN-1)?" ETH supply":"")
                                   , pcCol
                                   , {x: "left", link: "right", y: 1, py: 13, px: 15, c: "fadeLabel"}
                                   );
