@@ -1330,7 +1330,7 @@ getData("volhistory", function(data, status){
 	var ethPcN = Math.floor(100*(ethData[ethData.length-1].y / supplyEnd))+1;
 
         ethpcLines = [];
-        pcCol = "rgba(150, 80, 50, 0.7)";
+        pcCol = "rgba(256, 70, 40, 0.9)";
         for(var i = 1; i <= ethPcN ; i++){
             if(i%2 == 1) continue;
             var line = genLineDict( [{xNum: ethData1st, xTime: timeStart, y: supplyStart*0.01*i}, {xNum: ethDataLast, xTime: timeEnd, y: supplyEnd*0.01*i}]
