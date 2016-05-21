@@ -133,7 +133,7 @@ function preferredBlockExplorer(){
         console.log(localStorage.explorer);
         if (exp == "chain" || exp == "undefined" || exp == undefined) return "https://etherchain.org/block/"
         else if(exp == "camp") return "https://live.ether.camp/block/"
-        else if(exp == "scan") return "https://etherscan.io/block"
+        else if(exp == "scan") return "https://etherscan.io/block/"
         else return localStorage.explorerBlock;
     }
     else return "https://etherchain.org/block/"
