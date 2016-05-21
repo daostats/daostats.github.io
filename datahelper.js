@@ -1,6 +1,6 @@
 function getData(url, success, nocache){
     
-    /*if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
+    if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
             console.log("Fast mode");
             url = "https://raw.githubusercontent.com/daostats/daostats.github.io/master/" + url + ".js";
             
@@ -8,9 +8,9 @@ function getData(url, success, nocache){
             if(nocache != true) url += "?c=" + updateCycle;
     }
 
-    else*/ url = url + ".js";
+    else url = url + ".js";
     
-    url = "https://daostats.github.io/" + url;
+  
     
     console.log("Getting data at " + url);
     
