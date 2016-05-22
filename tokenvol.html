@@ -388,7 +388,7 @@ function bindTooltipBar(){
             .attr("x", 10)
             .text("New Volume: " + Number(data.y).toLocaleString())
             //.node().getBBox().width + 20;
-        var ttW = 180;;
+        var ttW = 180;
         var ttH = 80;
         
         
@@ -1067,12 +1067,17 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         .classed("tooltip", true)
 
 
-    var rectSize = function(r, w, h, m){
-            r.transition()
+    var rectSize = function(r, w, h, m, yr){
+            r
                 .attr("width", w)
                 .attr("x", width - w - m)
-                .attr("height", h)
+                
+            if(yr === undefined) yr = r;
+            
+            yr  .attr("height", h)
                 .attr("y", height - h - m);
+            
+            
     };
 
 
@@ -1096,17 +1101,21 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             .attr("width", buttonWidth)
             .attr("height", buttonHeight);
 
-            optionItem.on("mouseover", function(){
-                rectSize(d3.select(this).select(".optionButton"), buttonFullWidth, buttonFullHeight, buttonMargin);
-                rectSize(d3.select(this).select(".optionActive"), buttonWidth/2, buttonFullHeight, buttonMargin);
+            optionItem.on("mouseover", function(dur, after){
+                
+                
+                rectSize(d3.select(this).select(".optionButton").transition().duration(dur), buttonFullWidth, buttonFullHeight, buttonMargin);
+                rectSize(d3.select(this).select(".optionActive").transition().duration(dur), buttonWidth/2, buttonFullHeight, buttonMargin);
                 optionItem.style("opacity", 0.9);
-                d3.select(this).select(".optionLabel").transition().style("opacity", 1);
+                var tsn = d3.select(this).select(".optionLabel").transition().delay(200).duration(dur).style("opacity", 1);
+                
+                if(after !== undefined)tsn.each("end", after);
             })
             .on("mouseout", function(){
-                rectSize(d3.select(this).select(".optionButton"), buttonWidth, buttonHeight, buttonMargin);
-                rectSize(d3.select(this).select(".optionActive"), buttonWidth/2, buttonHeight, buttonMargin);
+                rectSize(d3.select(this).select(".optionButton").transition().duration(500), buttonWidth, buttonHeight, buttonMargin);
+                rectSize(d3.select(this).select(".optionActive").transition().duration(500), buttonWidth/2, buttonHeight, buttonMargin);
                 optionItem.style("opacity", 0.5);
-                d3.select(this).select(".optionLabel").transition().style("opacity", 0);
+                d3.select(this).select(".optionLabel").transition().duration(500).style("opacity", 0);
             })
             .on("click", function(){
                 this.active = !this.active;
@@ -1145,7 +1154,8 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             .style("opacity", 0)
             .text(button.text);
             
-            optionItem.on("mouseover").call(optionItem.node());
+            optionItem.on("mouseover").call(optionItem.node(), 900, function(){
+            optionItem.on("mouseout").call(optionItem.node());});
     }
 
 }
