@@ -1102,7 +1102,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             .attr("height", buttonHeight);
 
             optionItem.on("mouseover", function(dur, after){
-                
+                if(dur === undefined) dur = 500;
                 
                 rectSize(d3.select(this).select(".optionButton").transition().duration(dur), buttonFullWidth, buttonFullHeight, buttonMargin);
                 rectSize(d3.select(this).select(".optionActive").transition().duration(dur), buttonWidth/2, buttonFullHeight, buttonMargin);
