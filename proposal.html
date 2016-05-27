@@ -10,106 +10,176 @@
 <!-- Optional theme -->
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
 
-<link rel="stylesheet" href="style.css">
-
+<link rel="stylesheet" href="graph.css">
 
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
 <script src="datahelper.js"></script>
+<script src="graph.js"></script>
 
 
 </head>
 <body>
 <nav class="navbar navbar-default navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="index.html">DAO Stats</a>
-        </div>
-        <div id="navbar" class="navbar-collapse collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="index.html">Home</a></li>
-            <li><a href="nav.html">Search</a></li>
-            <li><a href="accounts.html">Accounts</a></li>
-            <li><a href="tokenvol.html">Graphs</a></li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="about.html">About</a></li>
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </nav>
-    
-    
-    
-    <div class="container">
-      <!-- Example row of columns -->
-      <div class="row">
-      
-    <div class="alert alert-danger" role="alert"><strong>This proposal is an example from the Test-Net</strong><br />
-    It exists only for demonstration purposes and will be deleted when the token sale finishes.</div> 
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"/>
+        <span class="icon-bar"/>
+        <span class="icon-bar"/>
+      </button>
+      <a class="navbar-brand" href="index.html">DAO Stats</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="index.html">Home</a>
+        </li>
+        <li>
+          <a href="nav.html">Search</a>
+        </li>
+        <li>
+          <a href="accounts.html">Accounts</a>
+        </li>
+        <li>
+          <a href="proposals.html">Proposals</a>
+        </li>
+        <li>
+          <a href="tokenvol.html">Graphs</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+          <a href="about.html">About</a>
+        </li>
+      </ul>
+    </div>
+    <!--/.nav-collapse -->
+  </div>
+</nav>
+
+
+
+<div class="container">
+
     <div id="invalidacc" class="alert alert-danger collapse" role="alert">Invalid proposal ID</div> 
-    <div id="unknownacc" class="alert alert-warning collapse" role="alert"><strong>Proposal not indexed</strong><br />
+    <div id="unknownacc" class="alert alert-warning collapse" role="alert">
+      <strong>Proposal not indexed</strong>
+      <br />
         The proposal will be indexed shortly after it is created</div> 
-    
-    <div id="newSPAlert" class="alert alert-info collapse" role="alert"><strong>This is a split proposal</strong><br />
+
+    <div id="newSPAlert" class="alert alert-info collapse" role="alert">
+      <strong>This is a split proposal</strong>
+      <br />
         See below for more information</div> 
-      
-        <h3>Proposal ID: <small><span id="proposal-js"></span>
-<span id="statP" class="label label-success" style="display:none;">Passed with <span class="majority"></span></span>
-<span id="statF" class="label label-danger" style="display:none;">Failed with <span class="majority"></span></span>
-<span id="statV" class="label label-info" style="display:none;">Currently voting</span>
-<span id="statT" class="label label-warning" style="display:none;">Ready to be tallied</span></small></h3> 
 
-        <h4>Amount: <small><span id="amount-js"></span></small></h4>
-        
-        
-        <div id="extraInfo" class="collapse">
-            <h4>Created by: <small><span id="creator-js"></span></small></h4>
-            
-            <h4><span id="recipientMode">New Service Provider: <small><a class="hexLink"><span id="recipient-js"></span></a></small></h4>
+    <h3>Proposal ID: <small>
+        <span id="proposal-js"></span>
+        <span id="statP" class="label label-success" style="display:none;">Passed with <span class="majority"/>
+        </span></span>
+        <span id="statF" class="label label-danger" style="display:none;">Failed with <span class="majority"/>
+        </span></span>
+        <span id="statV" class="label label-info" style="display:none;">Currently voting</span>
+        <span id="statT" class="label label-warning" style="display:none;">Ready to be tallied</span>
+      </small>
+    </h3> 
+    <div id="extraInfo" class="collapse">
+    <div class="row">
 
-            <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">Description</h3>
-              </div>
-              <div id="descText" class="panel-body">
-                
-      </div><div id="remaining" class="panel-footer">
-                
-      </div></div>
-      
-      <h4> Voting result: <small><span id="voteCap"></span> voted</span>
-      <div class="progress">
-      <div id="voteYay" class="progress-bar progress-bar-success" style="width: 0%">
-        <span class="sr-only">Yay</span>
-      </div>
-      <div id="voteNay" class="progress-bar progress-bar-danger" style="width: 0%">
-        <span class="sr-only">Nay</span>
-      </div>
-        </div>
-        
-        
-        <br />
+    <div class="col-md-6">
+    
+    <h4>Amount: <small>
+        <span id="amount-js"/>
+      </small>
+    </h4>
 
-        </div>
-      </div>
-      
-    </div><!-- Container end -->
 
     
+      <h4>Created by: <small>
+          <a class="hexLink" id="creator-js"> </a>
+        </small>
+      </h4>
 
+      <h4>
+        <span id="recipientMode">New Curator: <small>
+            <a class="hexLink" id="recipient-js">
+            </a>
+          </small>
+        </span>
+        </h4>
+    </div>
+    <div class="col-md-6">
+    <h4>Close date: <small><span id="close-js"></span></h4></small>
+    <h4>Transaction: <small><a class="txLink shrink" id="txhash-js"></a></h4></small>
+    </div>
+    </div><!-- row -->
+<h4> Voting result: <small>
+                <span id="voteCap"/></span>
+            </small>
+            <div class="progress">
+              <div id="voteYay" class="progress-bar progress-bar-success" style="width: 0%">
+                <span class="sr-only">Yay</span>
+              </div>
+              <div id="voteNay" class="progress-bar progress-bar-danger" style="width: 0%">
+                <span class="sr-only">Nay</span>
+              </div>
+              <div data-toggle="tooltip" title="50% Marker" style="width: 1px; height: 20px; position: absolute; background: black; right: 50%;">
+  </div>
+            </div></h4>
+            <h4>Turnout: <span id="turnout"></span>
+            <span class="pull-right">Quorum: <span id="quorumText"></span></span>
+            <div class="progress quorum">
+              <div id="totalVotes" class="progress-bar" style="width: 0%">
+                <span class="sr-only">Votes</span>
+              </div>
+              
+              <div id="neededVotes" class="progress-bar progress-bar-success" data-toggle="tooltip" title="Quorum" data-placement="right" style="  width: 0%">
+                <span class="sr-only">Quorum needed</span>
+              </div>
+            </div>
+            
+              </h4>
+         <ul id="tabs1" class="nav nav-tabs">
+  <li id="desctab" class="active"><a href="#descpage" data-toggle="tab">Description</a></li>
+  <li id="votetab"><a href="#votepage" data-toggle="tab">Voting</a></li>
+</ul>
+
+    <div id="pages1" class="tab-content">
+    <div id="descpage" class="tab-pane active">
+    
+    
+            
+              <div id="descText" class="panel-body">
+
+              </div>
+          </div>
+          
+    <div id="votepage" class="tab-pane" >
+    <a id="voteGraphLink" href="#votepage">Link to this graph <span class="glyphicon glyphicon-link" aria-hidden="true"></span></a>
+            <div id="graphBox" class="graph">
+            </div>
+            
+          </div>
+          </div>
+
+            <br />
+
+          </div>
+
+      </div>
+      <!-- Container end -->
+      
+    
+<script src="https://d3js.org/d3.v3.min.js"></script>
 <script>
-
 $(window).on('hashchange', function() {
     window.location.reload(true);
 });
+
+
+
 
 $(document).ready( function () {
     $('#table-showsent').on('click', function (e) {
@@ -157,133 +227,273 @@ $(this).css("background-color", "inherit");
 }
 
 
-var propid = parseInt(window.location.hash.substring(1));
+function quorumPc(value, divisor){
+  return 0.2 + value/divisor;
+}
 
+
+var params = window.location.hash.substring(1).split(",");
+
+var propid = parseInt(params[0]);
+var tabParam = params[1];
 
 if(propid % 1 == 0)
 {
-    applyData({proposal: propid});
-    getData("proposals/" + propid, function(data, status){
+  applyData({proposal: propid});
+  getData("proposals/" + propid, function(data, status){
+  
+    if(status != "success"){
+      applyData({amount: "Proposal not in records"});
+      $("#unknownacc").collapse("show");
+      return;
+    }
     
-        if(status != "success"){
-            applyData({amount: "Proposal not in records"});
-            $("#unknownacc").collapse("show");
-            return;
+    getData("vol", function(volData, vStatus){
+    if(!data["closed"]){
+      var totalVol = volData[2];
+      var quorumDivisor = volData[1];
+    }
+    else{
+      var totalVol = data["totalVol"] * (1e16);
+      var quorumDivisor = data["qDivisor"] * (1e16);
+    }
+    var totalVolUnit = totalVol * (1e-16);
+    
+    $("#extraInfo").collapse("show");
+  
+    deadline = data["deadline"];
+    now = Date.now()/1000;
+    
+    timeup = false
+    if(deadline < now){
+      timeup = true;
+    } 
+    
+    close = new Date(deadline * 1000);
+    var y = close.getUTCFullYear();
+    var mo = padTime(close.getUTCMonth()+1);
+    var d = padTime(close.getUTCDate());
+    var h = padTime(close.getUTCHours());
+    var m = padTime(close.getUTCMinutes());
+    var s = padTime(close.getUTCSeconds());
+    
+    ctext = y + "-" + mo + "-" + d + " " + h + ":" + m + ":" + s + " UTC";
+      
+     
+    if(deadline >= now){
+      var seconds = Math.floor(deadline - now);
+      var minutes = Math.floor(seconds/60);
+      var hours = Math.floor(minutes/60);
+      var days = Math.floor(hours/24);
+      
+      seconds = seconds%60;
+      minutes = minutes%60;
+      hours = hours%24;
+      
+      t = " (";
+      
+      if(days > 0) t += days + " days, "
+      if(hours > 0) t += hours + " hours, "
+      if(minutes > 0) t += minutes + " minutes, "
+      t += seconds + " seconds"
+      
+      t += ")";
+      
+      ctext += t;
+    }
+      
+    $("#close-js").text(ctext);
+
+    
+  
+    console.log(status);
+    
+    var recipientMode = "New Service Provider: ";
+    if(data["newCurator"]) recipientMode = "Recipient: ";
+    applyData({amount: baseToETH(data["amount"]), 
+          creator: data["creator"],
+          recipient: data["recipient"],
+          txhash: data["txhash"]});
+    
+    if(data["newCurator"]){
+      $("#newSPAlert").collapse("show");
+    }
+    
+    $("#descText").text(data["desc"]);
+    
+    
+    
+    
+    var yay = data["yes"];
+    var nay = data["nope"];
+    var total = yay + nay;
+    
+    
+    
+    if(total > 0){
+      $("#voteYay").css("width", 100*yay/total + "%");
+      $("#voteNay").css("width", 100*nay/total + "%");
+      $("#voteCap").text(formatFloat(100*yay/total) + "% Yes, " + formatFloat(100*nay/total) + "% No");
+    }
+    else $("#voteCap").text("No votes");
+    
+    var turnout = total/totalVol;
+    $("#turnout").text(formatFloat(100*turnout) + "%");
+    var quorum = quorumPc(data["amount"], quorumDivisor);
+    if(data["newCurator"]) quorum = (5+1/3)*0.1;
+    
+    $("#quorumText").text(formatFloat(100*quorum) + "%");
+    
+    var needed = quorum - turnout;
+    
+    
+                    
+    if(needed < 0){
+      $("#totalVotes").addClass("progress-bar-success")
+                      .css("width", 100*quorum + "%");
+      $("#neededVotes").css("width", -100*needed + "%")
+                      .css("border-left", "1px dotted black")
+                      .attr("data-placement", "left")
+                      .prop("title", "Quorum: " + formatFloat(quorum*100) + "%")
+    }
+    else{
+      $("#totalVotes").addClass("progress-bar-danger")
+                      .css("width", 100*turnout + "%");
+      $("#neededVotes").css("width", 100*needed + "%")
+                      .css("border-right", "1px dotted black")
+                      .css("box-shadow", "none")
+                      .css("background", "none")
+                    .prop("title", "Quorum: " + formatFloat(quorum*100) + "%");
+    }
+    
+    
+    
+    
+    if(data['closed']){
+      if(data['passed']){
+        $("#statP").css("display", "inline");
+        $(".majority").text(100*yay/total + "% vs " + 100*nay/total + "%");
+      }
+      else{
+        $("#statF").css("display", "inline");
+        
+        if(nay > yay) $(".majority").text(100*nay/total + "% vs " + 100*yay/total + "%");
+        else $(".majority").text("Quorum not met");
+         
+      }
+    
+    }
+    else{
+      if(timeup)
+        $("#statT").css("display", "inline");
+      else
+        $("#statV").css("display", "inline");
+    }
+    
+    
+    $("#voteGraphLink").prop("href", "#" + propid + ",votepage");
+    
+    var graphLog = data['history'];
+    //graphLog = [[1280000,1,2]];//,[2,1,2],[3,2,4],[4,3,5],[5,5,5]]
+    if(graphLog.length != 0){
+      if(graphLog.length == 1){
+      graphLog.unshift([graphLog[0][0]-60, 0, 0]);
+      }
+      console.log(graphLog);
+      getData("blocktime", function(bdata, bstatus){
+      blockTimeArray = bdata;
+      
+      
+      
+      console.log(graphLog);
+      
+      var startTime = blockToTime(graphLog[0][0])
+      var endTime = new Date(deadline * 1000);
+      
+      var startBlock = graphLog[0][0];
+      var endBlock = graphLog[graphLog.length-1][0];
+      
+      var yesData = new Array(graphLog.length);
+      var noData = new Array(graphLog.length);
+      for(var i=0; i<graphLog.length; i++){
+      var blockTime = blockToTime(graphLog[i][0]);
+        yesData[i] = {xNum: graphLog[i][0], xTime: blockTime, y: graphLog[i][1]/totalVolUnit};
+        noData[i] = {xNum: graphLog[i][0], xTime: blockTime, y: graphLog[i][2]/totalVolUnit};
+      }
+      
+      var yesLine = genLineDict(yesData, "Yes");
+      yesLine.legend = {toggle: false};
+      yesLine.brush = true;
+      var noLine = genLineDict(noData, "No", "#d22");
+      noLine.legend = {toggle: false};
+      noLine.brush = true;
+      
+      
+      var drawGraph = function(){
+      new plotGraph("graphBox", [yesLine, noLine], [0], "Block", ["Votes (Percent)"], function(n){
+      return n*100 + "%";
+    }, {button: {text: "Show UTC time",
+           enable: function(){
+            this.changeTickFormat(
+              function(){return [this.xScaleTime, this.xScaleTime2];},
+              function(axis){
+                var r = getXRatio(this.xScaleTime2.domain(), this.width);
+                var n = Math.floor(r / 1000);
+                axis
+                  .ticks(getNDIntervals(n))
+                  .tickFormat(d3.time.format('%b %d'));
+              }, "xTime", 180, "Time");}
+                    , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}},
+      type: "dual",
+      blockDomain: [startBlock, endBlock],
+      timeDomain: [startTime, endTime],
+      yDomain: [0, 1],
+      yDomainMod: 1,
+      ttLines: [0, 1],
+      ttFormat: function(n){return formatFloat(n*100) + "%";}});
+      }
+    
+      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+        var target = $(e.target).attr("href") // activated tab
+        console.log(target);
+        if(target == "#votepage" && $("#graphBox svg").length == 0){
+          console.log("Drawing graph");
+          drawGraph();
         }
-        
-        $("#extraInfo").collapse("show");
+      });
+      
+      console.log(tabParam);
+      if(tabParam == "votepage"){
+        $('.nav-tabs a[href="#votepage"]').tab("show");
+      }
     
-        deadline = data["deadline"];
-        now = Date.now()/1000;
-        
-        timeup = false
-        if(deadline < now){
-            timeup = true;
-            
-            close = new Date(deadline * 1000);
-            var y = close.getUTCFullYear();
-            var mo = close.getUTCMonth()+1;
-            var d = close.getUTCDate();
-            var h = close.getUTCHours();
-            var m = close.getUTCMinutes();
-            var s = close.getUTCSeconds();
-            
-            ctext = y + "-" + mo + "-" + d + " " + h + ":" + m + ":" + s + " UTC";
-            
-            $("#remaining").text("Closed on: " + ctext)
-        }
-        else{
-            var seconds = Math.floor(deadline - now);
-            var minutes = Math.floor(seconds/60);
-            var hours = Math.floor(minutes/60);
-            var days = Math.floor(hours/24);
-            
-            seconds = seconds%60;
-            minutes = minutes%60;
-            hours = hours%24;
-            
-            t = "Deadline in: ";
-            
-            if(days > 0) t += days + " days, "
-            if(hours > 0) t += hours + " hours, "
-            if(minutes > 0) t += minutes + " minutes, "
-            t += seconds + " seconds"
-            
-            $("#remaining").text(t);
-            
-        
-        }
-        
+      });
+    }
+    else $("#graphBox").text("No voting data are available yet");
     
-        console.log(status);
-        
-        recipientMode = "New Service Provider: ";
-        if(data["newCurator"]) recipientMode = "Recipient: ";
-        applyData({amount: baseToETH(data["amount"]), 
-                    creator: data["creator"],
-                    recipient: data["recipient"]});
-        
-        if(data["newCurator"]){
-            $("#newSPAlert").collapse("show");
-        }
-        
-        $("#descText").text(data["desc"]);
-        
-        
-        
-        
-        yay = data["yes"]
-        nay = data["nope"]
-        total = yay + nay
-        
-        $("#voteCap").text(baseToDAO(total));
-        
-        if(total > 0){
-            $("#voteYay").css("width", 100*yay/total + "%");
-            $("#voteNay").css("width", 100*nay/total + "%");
-        }
-        
-        if(data['closed']){
-            if(data['passed']){
-                $("#statP").css("display", "inline");
-                $(".majority").text(100*yay/total + "%");
-            }
-            else{
-                $("#statF").css("display", "inline");
-                
-                if(nay > yay) $(".majority").text(100*nay/total + "%");
-                else $(".majority").text("Quorum not met");
-                 
-            }
-        
-        }
-        else{
-            if(timeup)
-                $("#statT").css("display", "inline");
-            else
-                $("#statV").css("display", "inline");
-        }
-        
+  
     
-        
-        $('[data-toggle="tooltip"]').tooltip({
-            container : 'body'
-          });
-          
-        hexLink();
+    $('[data-toggle="tooltip"]').tooltip({
+      container : 'body'
+      });
+      
+    hexLink();
+    txLink();
     
-    });
-    
-    
-    
-    
-    
-    
+  });
+  
+  });
+  
+  
+  
+  
+  
+  
 }
 else {
-    applyData({account: "Invalid account"});
-    
-    $("#invalidacc").collapse("show");
+  applyData({account: "Invalid account"});
+  
+  $("#invalidacc").collapse("show");
 }
 
 

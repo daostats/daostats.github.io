@@ -38,6 +38,7 @@
             <li class="active"><a href="index.html">Home</a></li>
             <li><a href="nav.html">Search</a></li>
             <li><a href="accounts.html">Accounts</a></li>
+            <li><a href="proposals.html">Proposals</a></li>
             <li><a href="tokenvol.html">Graphs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -71,10 +72,10 @@
     </div>
     <div class="row">
         <h4>Total volume: <small id="totalVol"></small>
-        <h4>Ether balance: <small id="ethTip" data-toggle="tooltip" title="Test"><span id="ethBal" > </span> <span class="glyphicon glyphicon-info-sign"></span></small >
+        <h4>Ether balance: <small id="ethTip" data-toggle="tooltip" data-placement="right" title="Test"><span id="ethBal" > </span> <span class="glyphicon glyphicon-info-sign"></span></small >
     </div>
     <div class="row">
-    <div class="col-md-7">
+    <div class="col-md-6">
         <h3>Recent Transfers</h3>
         <div class="table-responsive">
             <table id="transferTable" class="table">
@@ -83,7 +84,7 @@
                   <th>Block</th>
                   <th>From</th>
                   <th>To</th>
-                  <th>Amount</th>
+                  <th>Tokens</th>
                 </tr>
               </thead>
               <tbody>
@@ -91,7 +92,7 @@
             </table>
           </div>
     </div>
-    <div class="col-md-5">
+    <div class="col-md-6">
         <h3>Recent Proposals</h3>
         <div class="table-responsive">
             <table id="propTable" class="table">
@@ -213,7 +214,7 @@ getData("home", function(data, status){
     for(var i=0; i<transfers.length; i++)
     {
         var t = transfers[i];
-        t[3] = baseToDAO(t[3]);
+        t[3] = baseToDAO2(t[3]);
         $('#transferTable tbody').append(String.format("<tr><td><a class=\"blockLink\">{0}</a></td><td><a class=\"accLink shrink\">{1}</a></td><td><a class=\"accLink shrink\">{2}</a></td><td>{3}</td>", t[0], t[1], t[2], t[3]));
     }
     
@@ -227,18 +228,18 @@ getData("home", function(data, status){
     }
     if(proposals.length == 0) $("#noVotes").collapse("show");
 
-    $("#totalVol").text(baseToDAO(data["vol"]));
+    $("#totalVol").text(baseToDAO2(data["vol"]) + " DAO");
     
     console.log(data["bal"]);
     
     extraBal = data["balEX"];
     totalEth = data["bal"] + extraBal[0] + extraBal[1];
     
-    propFmt = baseToETH(data["bal"], 'eth')
-    depositFmt = baseToETH(extraBal[0], 'eth')
-    extraFmt = baseToETH(extraBal[1], 'eth')
+    propFmt = baseToETH2(data["bal"], 'eth')
+    depositFmt = baseToETH2(extraBal[0], 'eth')
+    extraFmt = baseToETH2(extraBal[1], 'eth')
     
-    $("#ethBal").text(baseToETH(totalEth, 'eth'));
+    $("#ethBal").text(baseToETH2(totalEth, 'eth'));
     $("#ethTip").prop("title", "Available: " + propFmt + "<br />Deposits: " + depositFmt + "<br />Token sale extra: " + extraFmt);
     
     $('[data-toggle="tooltip"]').tooltip({

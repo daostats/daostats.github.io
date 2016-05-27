@@ -1,0 +1,112 @@
+.graph {
+  font: 12px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+  
+    pointer-events:none;
+}
+  
+  
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1px;
+}
+
+.y .tick line{
+    opacity: 0.3;
+  }
+  
+  .bar {
+  fill: #888;
+  stroke: #000;
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+.bar:hover {
+  fill: rgba(0,0,0,0) !important;
+}
+
+
+.fadeLabel{
+    opacity: 0.75;
+  }
+
+.legend {
+    font-size: 12px;
+    font-weight: bold;
+    text-anchor: middle;
+    fill: steelblue;
+}
+
+.brush .extent {
+  stroke: #fff;
+  fill-opacity: .125;
+  shape-rendering: crispEdges;
+}
+
+.optionButton {
+  stroke: #000;
+  fill: #fff;
+  shape-rendering: crispEdges;
+  cursor: pointer;
+}
+
+.optionActive {
+  stroke: #000;
+  fill: #fff;
+  shape-rendering: crispEdges;
+  cursor: pointer;
+}
+
+.optionLabel{
+    
+  cursor: pointer;
+}
+
+.labelBackground{
+  opacity: 0.5;
+  fill: #fff;
+  shape-rendering: crispEdges;
+}
+
+.clickable{
+	cursor: pointer;
+}
+
+.container {
+    padding-right: 0px;
+    padding-left: 0px;
+}
+.tooltip{
+    
+  shape-rendering: crispEdges;
+}
+.tooltip rect{
+    fill: #fff;
+    stroke: #000;
+
+}
+
+.markerLine{
+    stroke: #000;
+    stroke-width: 1px;
+    shape-rendering: crispEdges;
+    pointer-events:none;
+
+}
+.overlay {
+  fill: none;
+  pointer-events: all;
+  
+}
+
+.noPointerEvents{
+  pointer-events:none;
+}

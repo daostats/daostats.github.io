@@ -99,6 +99,25 @@ function baseToDAO(value){
     else return String.format("{0} MDAO", +(daos/1000000).toFixed(3));
 }
 
+function baseToDAO2(value, suffix){
+    if(suffix === undefined) suffix = "";
+    
+    
+    daos = value * (1e-16);
+    
+    
+    
+    parts = (daos).toExponential().split("e");
+    m = parseFloat(parts[0]);
+    e = parseFloat(parts[1]);
+
+    if (e < -3) return String.format("{0}&times;10<sup>{1}</sup> " + suffix, +m.toFixed(2), e);
+    else if(e < 0) return String.format("{0} " + suffix, +daos.toFixed(3));
+    else if(e < 3) return String.format("{0} " + suffix, +daos.toFixed(4));
+    else if(e < 6) return String.format("{0} " + suffix, (Math.round(daos)).toLocaleString());
+    else return String.format("{0} " + suffix, (Math.round(daos)).toLocaleString());
+}
+
 function baseToETH(value, base){
     
     if (base == "eth"){
@@ -114,6 +133,20 @@ function baseToETH(value, base){
     if (value < 1e21) return formatFloat(value*(1e-18)) + " ether";
     if (value < 1e24) return formatFloat(value*(1e-21)) + " Kether";
     else return formatFloat(value*(1e-24)) + " Mether";
+}
+
+function baseToETH2(value, base){
+    
+    if(value == 0) return "0 ether";
+    
+    if (base == "eth"){
+        value = value * (1e18);
+    }
+    
+    if (value < 1e12) return value.toLocaleString() + " Wei";
+    if (value < 1e15) return (Math.round(100*value*(1e-12))/100).toLocaleString() + " szabo";
+    if (value < 1e18) return (Math.round(100*value*(1e-15))/100).toLocaleString() + " finny";
+    else return (Math.round(100*value*(1e-18))/100).toLocaleString() + " ether";
 }
 
 function preferredAccountExplorer(){
@@ -137,6 +170,18 @@ function preferredBlockExplorer(){
         else return localStorage.explorerBlock;
     }
     else return "https://etherchain.org/block/"
+}
+
+function preferredTxExplorer(){
+    if(typeof(Storage) !== undefined){
+        var exp = localStorage.explorer;
+        console.log(localStorage.explorer);
+        if (exp == "chain" || exp == "undefined" || exp == undefined) return "https://etherchain.org/tx/"
+        else if(exp == "camp") return "https://live.ether.camp/transaction/"
+        else if(exp == "scan") return "https://etherscan.io/tx/"
+        else return localStorage.explorerBlock;
+    }
+    else return "https://etherchain.org/tx/"
 }
 
 function hexLink(){
@@ -171,6 +216,17 @@ function blockLink(){
 function propLink(){
     $("a.propLink").each(function(){
         $(this).prop("href", "proposal.html#" + $(this).text());
+    });
+}
+
+function txLink(){
+    var exp = preferredTxExplorer();
+    $("a.txLink").each(function(){
+        hash = $(this).text();
+        $(this).prop("href", exp + $(this).text());
+        if($(this).hasClass("shrink")){
+            $(this).text(hash.substr(0, 42) + "...");
+        }
     });
 }
 
@@ -216,5 +272,5 @@ function binaryIndexOf(searchElement, elementName) {
         }
     }
  
-    return maxIndex;
+    return minIndex;
 }

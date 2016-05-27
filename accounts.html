@@ -37,7 +37,8 @@
           <ul class="nav navbar-nav">
             <li><a href="index.html">Home</a></li>
             <li><a href="nav.html">Search</a></li>
-            <li class="active"><a href="biggest.html">Accounts</a></li>
+            <li class="active"><a href="accounts.html">Accounts</a></li>
+            <li><a href="proposals.html">Proposals</a></li>
             <li><a href="tokenvol.html">Graphs</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -71,7 +72,7 @@
                 <tr>
                   <th></th>
                   <th>Account</th>
-                  <th>Amount</th>
+                  <th>Tokens</th>
                   <th>Proportion</th>
                 </tr>
               </thead>
@@ -118,7 +119,7 @@
             {
                 a = amounts[i];
                 console.log(a);
-                dao = baseToDAO(a[1]);
+                dao = baseToDAO2(a[1]);
                 
                 pc = formatFloat(100*a[1]/vol, 3) + "%";
                
@@ -128,7 +129,7 @@
                 
             }
             
-            $("#tknVol").text(baseToDAO(vol));
+            $("#tknVol").text(baseToDAO2(vol) + " DAO");
             
             accLink();
         });
