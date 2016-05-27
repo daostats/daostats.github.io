@@ -1,0 +1,220 @@
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Accounts - DAO Stats</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+<script src="datahelper.js"  type="text/javascript"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<link rel="stylesheet" href="style.css">
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">DAO Stats</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="nav.html">Search</a></li>
+            <li class="active"><a href="biggest.html">Accounts</a></li>
+            <li><a href="proposals.html">Proposals</a></li>
+            <li><a href="tokenvol.html">Graphs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="options.html">Options</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    
+    
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+           
+      <div class="col-md-7">
+      
+        <h3>Largest DAO token holders <small>Top 100</small></h3>
+        
+        <div id="majInfo" class="well collapse">The top 100 holders collectively have <strong><span id="tokenpc"></span></strong> of all DAO tokens.<br />
+        <span id="top50maj" class="collapse">A token majority is held by the top <strong><span id="n-maj"></span></strong> accounts with <strong><span id="pc-maj"></span></strong> of the tokens.</span>
+        
+        </div>
+        <h4>Total token volume: <span id="tknVol"></span></h4>
+        <h4>Number of token holders: <span id="tknHolders"></span></h4>
+
+    <div class="table-responsive">
+            <table id="amountTable" class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Account</th>
+                  <th>Tokens</th>
+                  <th>Proportion</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+
+</div>    
+      <div class="col-md-5">
+      <h3>Search</h3>
+      
+        <div class="panel panel-default">
+  <div class="panel-heading">
+    <h3 class="panel-title">
+   Search Account address:</h3>
+  </div>
+  <div class="panel-body">
+       <div class="input-group">
+  <span class="input-group-addon" id="hexprefix">0x</span>
+  <input type="text" id="searchaccount" class="form-control" placeholder="0000000000000000000000000000000000000000" aria-describedby="Search account address">
+  
+  <span class="input-group-addon  alert-success collapsed" id="hexalert" data-toggle="tooltip" title="Invalid address">&#10004;</span>
+</div>
+  </div>
+</div>
+    
+</div>
+       
+</div>
+      
+    </div><!-- Container end -->
+
+    
+
+<script>
+    getData("biggest", function(data, status){
+    
+        getData("vol", function(vdata, status){
+            vol = vdata[0];
+            amounts = data[0];
+            console.log(amounts.length);
+            for(var i=0; i<amounts.length; i++)
+            {
+                a = amounts[i];
+                console.log(a);
+                dao = baseToDAO2(a[1]);
+                
+                pc = formatFloat(100*a[1]/vol, 3) + "%";
+               
+                $('#amountTable tbody').append(String.format("<tr><td>{3}</td><td><a class=\"accLink\">{0}</a></td><td>{1}</td><td>{2}</td></tr>", a[0], dao, pc, i+1));
+                
+                                                              
+                
+            }
+            
+            $("#tknVol").text(baseToDAO2(vol) + " DAO");
+            
+            accLink();
+        });
+
+        $("#tknHolders").text(data[4]);
+        
+        $("#tokenpc").text(formatFloat(data[1]) + "%");
+        
+        if(data[2] != 0){
+            $("#top50maj").collapse("show");
+            $("#n-maj").text(data[2]);
+            $("#pc-maj").text(formatFloat(data[3]) + "%");
+        
+        }
+        
+        $("#majInfo").collapse("show");
+
+        $('[data-toggle="tooltip"]').tooltip({
+            container : 'body'
+          });
+          
+        
+          
+    
+    });
+    
+    
+    
+    $('[data-toggle="tooltip"]').tooltip();
+    
+    $("#searchaccount").on("input", function(){
+        hex = $(this).val()
+        
+        if(hex.startsWith("0x")){
+            $("#hexprefix").html("");
+                    console.log("C");
+        }
+        else{
+            $("#hexprefix").html("0x");
+            hex = "0x" + hex;
+                    console.log("B");
+        }
+        
+        hex = hex.toLowerCase();
+        
+        var re = /^0[xX][0-9a-f]{40}$/
+        
+        if(re.test(hex))
+        {
+            console.log("g");
+            $("#hexalert").removeClass("alert-danger").addClass("alert-success").html("Go").prop("title", "Valid address").tooltip('fixTitle').tooltip("show");
+        }
+        else{
+            console.log("x");
+            $("#hexalert").addClass("alert-danger").removeClass("alert-success").html("&#10008;").prop("title", "Invalid address").tooltip('fixTitle').tooltip("hide");
+        }
+    
+    }).trigger("input");
+
+    $("#searchaccount").keyup(function (e) {
+        if (e.keyCode == 13) {
+            window.location.href = "tokenbalance.html#" + $("#searchaccount").val();
+        }
+    });
+    
+    $("#searchproposal").keyup(function (e) {
+        if (e.keyCode == 13) {
+            window.location.href = "proposal.html#" + $("#searchproposal").val();
+        }
+    });
+    
+
+
+
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-77332805-1', 'auto');
+  ga('send', 'pageview', {'page': location.pathname + location.search + location.hash});
+
+</script>
+</body>
+</html>

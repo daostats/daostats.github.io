@@ -1,0 +1,278 @@
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>DAO Stats - The DAO Explorer</title>
+<meta name="description" content="DAO Stats is an explorer for The DAO on the Ethereum network. View token transfers, proposals, votes and analytics." />
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<link rel="stylesheet" href="style.css">
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script src="datahelper.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">DAO Stats</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index.html">Home</a></li>
+            <li><a href="nav.html">Search</a></li>
+            <li><a href="accounts.html">Accounts</a></li>
+            <li><a href="proposals.html">Proposals</a></li>
+            <li><a href="tokenvol.html">Graphs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="options.html">Options</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    
+    
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+      <!--<div class="alert alert-info alert-warning" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>Down for maintenance.</strong><br />You can still view the site, but no updates will be shown.</div>-->
+      
+      <div id="betaAlert" class="alert alert-info alert-dismissible collapse" role="alert"><button type="button" id="hideBetaMessage" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>DAO Stats is in beta!</strong><br />Please report any bugs or inconsistencies on <strong><a href="https://github.com/daostats/daostats.github.io">GitHub</a></strong></div>
+      <div class="page-header" style="margin-top:0px;">
+      <div class="row">
+      <div class="col-sm-6">
+  <h1>DAO Stats <sup><small><span class="label label-info">Beta</span></small></sup></h1>
+      </div>
+      <div class="col-sm-6">
+  <h1 class="text-right">&nbsp;<small>The DAO Explorer</small></h1>
+      </div>
+</div>
+</div>
+    </div>
+    <div class="row">
+        <h4>Total volume: <small id="totalVol"></small>
+        <h4>Ether balance: <small id="ethTip" data-toggle="tooltip" data-placement="right" title="Test"><span id="ethBal" > </span> <span class="glyphicon glyphicon-info-sign"></span></small >
+    </div>
+    <div class="row">
+    <div class="col-md-6">
+        <h3>Recent Transfers</h3>
+        <div class="table-responsive">
+            <table id="transferTable" class="table">
+              <thead>
+                <tr>
+                  <th>Block</th>
+                  <th>From</th>
+                  <th>To</th>
+                  <th>Tokens</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+    </div>
+    <div class="col-md-6">
+        <h3>Recent Proposals</h3>
+        <div class="table-responsive">
+            <table id="propTable" class="table">
+              <thead>
+                <tr>
+                  <th>Proposal</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <div id="noProposals" class="alert alert-info collapse" role="alert">
+                Proposals will be made after the token sale finishes.
+            </div>
+          </div>
+    </div>
+    
+</div>   
+
+<div class="row">
+        
+        <h3>Recent Votes</h3>
+        <div class="table-responsive">
+            <table id="voteTable" class="table">
+              <thead>
+                <tr>
+                  <th>Proposal</th>
+                  <th>Block</th>
+                  <th>Supports</th>
+                  <th>Account</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+            <div id="noVotes" class="alert alert-info collapse" role="alert">
+                Votes will be cast once a proposal is made.
+            </div>
+          </div> 
+</div>
+
+
+      </div>
+
+    
+
+<script>
+
+$(window).on('hashchange', function() {
+    window.location.reload(true);
+});
+
+$(document).ready( function () {
+    $('#table-showsent').on('click', function (e) {
+        tableView(false, true);
+    });
+    $('#table-showrecv').on('click', function (e) {
+        tableView(true, false);
+    });
+    $('#table-showall').on('click', function (e) {
+        tableView(false, false);
+    });
+    
+    $('#tabs').tab();
+    
+});
+function tableView(sentvis, recvvis){
+
+
+    if(recvvis)$('.tx-recv').addClass("hidden");
+    else $('.tx-recv').removeClass("hidden");
+    
+    if(sentvis)$('.tx-sent').addClass("hidden");
+    else $('.tx-sent').removeClass("hidden");
+
+    
+    /*$("table#transferTable").removeClass("table-striped");
+
+    // now add stripes to alternating rows
+    $("table#transferTable tr").each(function (index) {
+        alert(index);
+      // but first remove class that may have been added by previous changes
+$(this).css("background-color", "inherit");
+  if ( index % 2 == 0) {
+    $(this).css("background-color", "#f9f9f9");
+      }
+    });*/
+/*
+    $("tr:not(.hidden)").each(function (index) {
+    $(this).toggleClass("stripe", !!(index & 1));
+});*/
+
+
+
+
+}
+
+
+getData("home", function(data, status){
+
+    /*if(status != "success"){
+        applyData({amount: "Account not in records"});
+        $("#unknownacc").collapse("show");
+        return;
+    }*/
+    
+    
+    proposals = data["prop"];
+    for(var i=0; i<proposals.length; i++)
+    {
+        var p = proposals[i];
+        console.log(p);
+        $('#propTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td>{1}</td>", p[0], p[1]));
+    }
+    if(proposals.length == 0) $("#noProposals").collapse("show");
+    
+    transfers = data["transfer"];
+    for(var i=0; i<transfers.length; i++)
+    {
+        var t = transfers[i];
+        t[3] = baseToDAO2(t[3]);
+        $('#transferTable tbody').append(String.format("<tr><td><a class=\"blockLink\">{0}</a></td><td><a class=\"accLink shrink\">{1}</a></td><td><a class=\"accLink shrink\">{2}</a></td><td>{3}</td>", t[0], t[1], t[2], t[3]));
+    }
+    
+    votes = data["vote"];
+    for(var i=0; i<votes.length; i++)
+    {
+        var v = votes[i];
+        yn = "Nay";
+        if(v[2])yn = "Yay";
+        $('#voteTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td><a class=\"blockLink\">{1}</a></td><td>{2}</td><td><a class=\"accLink\">{3}</a></td>", v[0], v[1], yn, v[3]));
+    }
+    if(proposals.length == 0) $("#noVotes").collapse("show");
+
+    $("#totalVol").text(baseToDAO2(data["vol"]) + " DAO");
+    
+    console.log(data["bal"]);
+    
+    extraBal = data["balEX"];
+    totalEth = data["bal"] + extraBal[0] + extraBal[1];
+    
+    propFmt = baseToETH2(data["bal"], 'eth')
+    depositFmt = baseToETH2(extraBal[0], 'eth')
+    extraFmt = baseToETH2(extraBal[1], 'eth')
+    
+    $("#ethBal").text(baseToETH2(totalEth, 'eth'));
+    $("#ethTip").prop("title", "Available: " + propFmt + "<br />Deposits: " + depositFmt + "<br />Token sale extra: " + extraFmt);
+    
+    $('[data-toggle="tooltip"]').tooltip({
+        container : 'body',
+        html: true
+      });
+    
+    accLink();
+    blockLink();
+    propLink();
+
+});
+
+if(typeof(Storage) !== undefined){
+    $("#hideBetaMessage").click(function(){
+        localStorage.hideBeta = "true";
+    });
+
+    if(localStorage.hideBeta != "true"){
+        $("#betaAlert").collapse("show");
+    }
+}
+</script>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-77332805-1', 'auto');
+  ga('send', 'pageview', {'page': location.pathname + location.search + location.hash});
+
+</script>
+</body>
+</html>

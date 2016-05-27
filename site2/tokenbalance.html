@@ -1,0 +1,308 @@
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Balance</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<link rel="stylesheet" href="style.css">
+
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<script src="datahelper.js"></script>
+
+
+</head>
+<body>
+<nav class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="index.html">DAO Stats</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="nav.html">Search</a></li>
+            <li><a href="biggest.html">Accounts</a></li>
+            <li><a href="proposals.html">Proposals</a></li>
+            <li><a href="accounts.html">Graphs</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="options.html">Options</a></li>
+            <li><a href="about.html">About</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+    
+    
+    
+    <div class="container">
+      <!-- Example row of columns -->
+      <div class="row">
+      
+      
+    <div id="invalidacc" class="alert alert-danger collapse" role="alert">Invalid account address</div> 
+    <div id="unknownacc" class="alert alert-warning collapse" role="alert"><strong>Account not indexed</strong><br />
+        Account transfers and balance will appear here once DAO tokens are sent to it</div> 
+      
+        <h3>Account: <small><span id="account-js"></span> <a id="extacc" class="hexlink" data-toggle="tooltip" title="Open in external block explorer"> <span class="glyphicon glyphicon-globe" aria-hidden="true"></span></a></small></h3>
+
+        <h4>Token balance: <small><span id="amount-js" data-toggle="tooltip" title=""></span> <span id="amountpc" class="label label-default"></span></small></h4>
+<br />
+
+
+    <ul id="tabs1" class="nav nav-tabs">
+  <li id="transfertab" class="active"><a href="#transferpage" data-toggle="tab">Transfers <span id="txBadge" class="badge">0</span></a></li>
+  <li id="votetab"><a href="#votepage" data-toggle="tab">Votes <span id="vtBadge" class="badge">0</span></a></li>
+</ul>
+
+    <div id="pages1" class="tab-content">
+    <div id="transferpage" class="tab-pane active">
+    <h4>Last transfers <small>(showing <span id="txCount">0</span>)</small></h4>
+<div id="transferButtons" class="hidden">
+
+<div class="btn-group" data-toggle="buttons">
+  <label id="table-showall" class="btn btn-primary active">
+    <input type="radio" name="options"autocomplete="off"  checked>All transfers
+  </label>
+  <label id="table-showsent" class="btn btn-primary" >
+    <input type="radio" name="options" autocomplete="off">Sent
+  </label>
+  <label id="table-showrecv" class="btn btn-primary" >
+    <input type="radio" name="options" autocomplete="off" >Received
+  </label>
+</div>
+    
+</div>
+    
+    <div class="table-responsive">
+            <table id="transferTable" class="table">
+              <thead>
+                <tr>
+                  <th>Block</th>
+                  <th></th>
+                  <th>Account</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+	    
+          </div>
+
+</div>          
+
+          
+    <div id="votepage" class="tab-pane" >
+    <h4>All votes <small id="voteheader"></small></h4>
+           <div class="table-responsive">
+            <table id="voteTable" class="table">
+              <thead>
+                <tr>
+                  <th>Proposal</th>
+                  <th>Decision</th>
+                  <th>Transaction</th>
+                </tr>
+              </thead>
+              <tbody>
+              </tbody>
+            </table>
+          </div>
+
+    </div>
+    
+    </div><!-- pages1 end -->
+      </div>
+      
+    </div><!-- Container end -->
+
+    
+
+<script>
+
+$(window).on('hashchange', function() {
+    window.location.reload(true);
+});
+
+$(document).ready( function () {
+    $('#table-showsent').on('click', function (e) {
+        tableView(false, true);
+    });
+    $('#table-showrecv').on('click', function (e) {
+        tableView(true, false);
+    });
+    $('#table-showall').on('click', function (e) {
+        tableView(false, false);
+    });
+    
+    $('#tabs').tab();
+    
+});
+function tableView(sentvis, recvvis){
+
+
+    if(recvvis)$('.tx-recv').addClass("hidden");
+    else $('.tx-recv').removeClass("hidden");
+    
+    if(sentvis)$('.tx-sent').addClass("hidden");
+    else $('.tx-sent').removeClass("hidden");
+
+
+}
+
+
+var hash = window.location.hash.substring(1);
+
+if(hash.slice(0,2) != "0x"){
+    hash = "0x" + hash;
+}
+hash = hash.toLowerCase();
+
+setElemText("account-js", hash);
+
+var re = /^0[xX][0-9a-f]{40}$/
+
+if(re.test(hash))
+{
+    applyData({account: hash});
+    getData("tokendata/" + hash, function(data, status){
+    
+    console.log("Status: " + status);
+    if(status != "success"){
+        applyData({amount: "Account not in records"});
+        $("#unknownacc").collapse("show");
+        return;
+    }
+    
+                
+                console.log(status);
+    
+        fmtdBal = baseToDAO(data["amount"]) + " ";
+        applyData({amount: fmtdBal});
+        $("#amount-js").prop("title", data['amount']);
+        
+        getData("vol", function(amt){
+            return function(data){
+                $("#amountpc").text(formatFloat(100*amt/data[0]) + "%")
+            }
+        }(data["amount"]));
+        
+        transfers = data["transfers"];
+        console.log(transfers);
+        if(transfers.length != 0){
+            $("#transferButtons").removeClass("hidden");
+            $("#txCount").html(transfers.length);
+            $("#txBadge").html(transfers.length);
+        }
+        transfers.sort(function(a,b){return b['blk']-a['blk']})
+        for(var i=0; i<transfers.length; i++)
+        {
+            t = transfers[i];
+            console.log(t);
+            
+            t['amt'] = baseToDAO(t['amt']);
+            tdata = dictToArray(t, ['blk', 'amt', 'tgt']);
+            
+            
+            if(t['out'] == 1) {
+                classname = "striped tx-sent";
+                direction = "&#10097;"
+                dirtext = "Sent";
+                //tdata[1] = "-" + tdata[1];
+                console.log(tdata);
+            }
+            else {
+                classname = "tx-recv";
+                direction = "&#10096;"
+                dirtext = "Received";
+            }
+            
+            $('#transferTable tbody').append(String.format("<tr class=\"collapse in {3}\"><td><a class=\"blockLink\">{0}</a></td><td data-toggle=\"tooltip\" title=\"{5}\"><abbr>{4}</abbr></td><td><a class=\"accLink\">{2}</a></td><td>{1}</td></tr>", tdata[0], tdata[1], tdata[2], classname, direction, dirtext))
+            
+                                                          
+            
+        }
+        
+        
+        
+        $("#extacc").prop("href", preferredAccountExplorer() + hash);
+        
+        $('[data-toggle="tooltip"]').tooltip({
+            container : 'body'
+          });
+        
+        accLink();
+        blockLink();
+          
+    
+    });
+    
+    
+    getData("accvotes/" + hash, function(data, status){
+    
+    if(status != "success"){
+        applyData({voteheader: "No voting data available"});
+        return;
+    }
+    
+    votes = data;
+    
+    $("#vtBadge").html(votes.length);
+    
+    for(var i=0; i<votes.length; i++)
+    {
+        vdata = votes[i]
+        
+        supports = "Nay"
+        if(vdata[1]) supports = "Yay"
+        
+        $('#voteTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td>{1}</td><td><a class=\"hexLink\">{2}</a></td></tr>", vdata[0], supports , vdata[2]))
+    }
+    
+    hexLink();
+    propLink();
+    
+    
+    });
+    
+    
+    
+    
+    
+}
+else {
+    applyData({account: "Invalid account"});
+    
+    $("#invalidacc").collapse("show");
+}
+
+
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-77332805-1', 'auto');
+  ga('send', 'pageview', {'page': location.pathname + location.search + location.hash});
+
+</script>
+</body>
+</html>
