@@ -2,17 +2,17 @@
 [
 2,
 "Do you believe in god?",
-2
+200
 ],
 [
 3,
 "Should curators only whitelist projects that are r...",
-2
+200
 ],
 [
 5,
 "Moratorium on proposals until the DAO contract is ...",
-2
+200
 ],
 [
 1,
