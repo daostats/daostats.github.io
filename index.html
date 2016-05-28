@@ -100,6 +100,7 @@
                 <tr>
                   <th>Proposal</th>
                   <th>Description</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
@@ -206,7 +207,10 @@ getData("home", function(data, status){
     {
         var p = proposals[i];
         console.log(p);
-        $('#propTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td>{1}</td>", p[0], p[1]));
+        if(p[1] == "")p[1] = "<span style=\"color:#777;\">No Description</span>";
+        var s = "";
+        if(p[2] == 1)s = "Split";
+        $('#propTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td>{1}</td><td>{2}</td>", p[0], p[1], s));
     }
     if(proposals.length == 0) $("#noProposals").collapse("show");
     
