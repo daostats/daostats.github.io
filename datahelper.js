@@ -149,6 +149,10 @@ function baseToETH2(value, base){
     else return (Math.round(100*value*(1e-18))/100).toLocaleString() + " ether";
 }
 
+function base2ETH2(a,b){
+	return baseToETH2(a,b);
+}
+
 function preferredAccountExplorer(){
     if(typeof(Storage) !== undefined){
         var exp = localStorage.explorer;
