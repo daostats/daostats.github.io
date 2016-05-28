@@ -96,7 +96,7 @@
                   <th>Block</th>
                   <th></th>
                   <th>Account</th>
-                  <th>Amount</th>
+                  <th>Tokens</th>
                 </tr>
               </thead>
               <tbody>
@@ -192,7 +192,7 @@ if(re.test(hash))
                 
                 console.log(status);
     
-        fmtdBal = baseToDAO(data["amount"]) + " ";
+        fmtdBal = baseToDAO2(data["amount"]) + "DAO ";
         applyData({amount: fmtdBal});
         $("#amount-js").prop("title", data['amount']);
         
@@ -215,7 +215,7 @@ if(re.test(hash))
             t = transfers[i];
             console.log(t);
             
-            t['amt'] = baseToDAO(t['amt']);
+            t['amt'] = baseToDAO2(t['amt']);
             tdata = dictToArray(t, ['blk', 'amt', 'tgt']);
             
             
