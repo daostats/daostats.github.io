@@ -311,10 +311,12 @@ if(propid % 1 == 0)
     
     var recipientMode = "New Service Provider: ";
     if(data["newCurator"]) recipientMode = "Recipient: ";
-    applyData({amount: baseToETH(data["amount"]), 
+    applyData({amount: baseToETH2(data["amount"]), 
           creator: data["creator"],
           recipient: data["recipient"],
           txhash: data["txhash"]});
+
+    //$("#deposit-js").text(baseToEth2(data["amount"], "eth"));
     
     if(data["newCurator"]){
       $("#newSPAlert").collapse("show");
