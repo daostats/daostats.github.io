@@ -15,6 +15,11 @@
 1600572,
 2,
 6139
+],
+[
+1601314,
+1013,
+6139
 ]
 ],
 "newCurator": 1,
@@ -25,5 +30,5 @@
 "qDivisor": null,
 "recipient": "0x13680fa2a60fd551894199f009cca20fb63a3e31",
 "txhash": "0x1588eaf5c6584093c4db4e6fae8b53db6e801ad04d8115501e2416818824e1e5",
-"yes": 2
+"yes": 1013
 }
