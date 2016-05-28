@@ -113,7 +113,6 @@
     <div class="col-md-6">
     <h4>Close date: <small><span id="close-js"></span></h4></small>
     <h4>Transaction: <small><a class="txLink shrink" id="txhash-js"></a></h4></small>
-    <h4>Deposit: <small><span id="deposit-js"></span></h4></small>
     </div>
     </div><!-- row -->
 <h4> Votes cast: <small>
@@ -314,8 +313,7 @@ if(propid % 1 == 0)
     applyData({amount: baseToETH2(data["amount"]), 
           creator: data["creator"],
           recipient: data["recipient"],
-          txhash: data["txhash"],
-          deposit: base2ETH2(data["propdeposit"], "eth")});
+          txhash: data["txhash"]});
 
     //$("#deposit-js").text(baseToEth2(data["amount"], "eth"));
     
