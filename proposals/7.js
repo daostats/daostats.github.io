@@ -5,7 +5,13 @@
 "creator": "0xe82d5b10ad98d34df448b07a5a62c1affbef758f",
 "deadline": 1465104577,
 "desc": "Leave me alone",
-"history": [],
+"history": [
+[
+1607815,
+104702,
+44022
+]
+],
 "newCurator": 1,
 "nope": 440226980890000000000,
 "passed": null,
@@ -14,5 +20,5 @@
 "qDivisor": null,
 "recipient": "0xe82d5b10ad98d34df448b07a5a62c1affbef758f",
 "txhash": "0x80270125039351e5520917458918e6c31ccbc6d0fc524e5ffde6be6387263c8f",
-"yes": 995033333333333333331
+"yes": 1047028263279746666664
 }
