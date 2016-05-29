@@ -1,6 +1,38 @@
 {
- "amount": 331245295382997499000000,
+ "amount": 328937297943667099000000,
  "transfers": [
+  {
+   "amt": 660000000000000000,
+   "blk": 1606045,
+   "out": 0,
+   "tgt": "0x6e7c8c7745670fae6ec9c82b593766e98ee6bb2c",
+   "tid": 13,
+   "txh": "0x1788d43173bdca2a2ebec971aa54dda41d67beb86d96380fabb90d6cacab24f3"
+  },
+  {
+   "amt": 1699999899999900000000,
+   "blk": 1606045,
+   "out": 0,
+   "tgt": "0x1ad28462b1ca37f4f343926460e5ac325350fad9",
+   "tid": 14,
+   "txh": "0x685fb4fca28fb73908346a11d8e61d308f017787bf4b2031f367717695c396ea"
+  },
+  {
+   "amt": 8657439330300000000,
+   "blk": 1606033,
+   "out": 1,
+   "tgt": "0xdecd080da2770c1ef4a7f4995e844d869a39e2a2",
+   "tid": 0,
+   "txh": "0x6a8878dd04e7a07fe943ce53d90a7e3a8c3b777a40a2b017e45b4a7d449e047c"
+  },
+  {
+   "amt": 3999999900000000000000,
+   "blk": 1606032,
+   "out": 1,
+   "tgt": "0x3be3aefea4550a94acd615291f04a0a4ca7fe9f8",
+   "tid": 15,
+   "txh": "0x3ec00c08f9d2e76ab26535f836a92db8c017df8be875a9ea931b973b61746093"
+  },
   {
    "amt": 5000000000000000000,
    "blk": 1606014,
@@ -538,22 +570,6 @@
    "txh": "0x186b2c87f6ca0d50c6792bc11c971365beb5b369ef3a348ddbb87cc61cfd925b"
   },
   {
-   "amt": 50000000000000000000,
-   "blk": 1605595,
-   "out": 0,
-   "tgt": "0xcd6d14cd6b605e239dfdbb2d06ced8d547a0b375",
-   "tid": 2,
-   "txh": "0x6f85a9a5ec73ae601bc9d11d6f6f5a3cf5cf60fbddd51a520de7148a309ed9bb"
-  },
-  {
-   "amt": 45882303866300000000,
-   "blk": 1605595,
-   "out": 0,
-   "tgt": "0x26e4090b51ce6d6de85dc3e93c374a8caf726ed9",
-   "tid": 4,
-   "txh": "0xe700ee4b4bb83fcfc7a9467a32773fd7a7a2152b41e84a94926309ee39c7a992"
-  },
-  {
    "amt": 147685810630000000000,
    "blk": 1605583,
    "out": 1,
@@ -784,22 +800,6 @@
    "tgt": "0x1f3eb527f6344a2db966445e9315ad5c80685bfb",
    "tid": 28,
    "txh": "0x40db551df413170748bd8e0d8c2321c998a43e5f1cce788c3130506de8f35af4"
-  },
-  {
-   "amt": 4607685637700000000,
-   "blk": 1604473,
-   "out": 1,
-   "tgt": "0x2e61ea564bc28065b662e51544b10ccc7a89083a",
-   "tid": 7,
-   "txh": "0x5697fe04d97a1c43eae789c4af43b582e397a00c5696af04ed2307d554a86954"
-  },
-  {
-   "amt": 4299425000000000000,
-   "blk": 1604375,
-   "out": 1,
-   "tgt": "0xed34e4262680f58d04ccf1bdcd0e45d40a26d3c7",
-   "tid": 0,
-   "txh": "0x25bd433409c34489f023868195e0182df3d4c1e7ed5d439f7d2a213a24dd2b65"
   }
  ]
 }
