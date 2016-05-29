@@ -15,6 +15,11 @@
 2.0
 ],
 [
+11,
+"Curators, please hire somebody to fix the DAO code...",
+2.0
+],
+[
 1,
 "",
 0.0
