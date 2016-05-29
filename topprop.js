@@ -28,5 +28,10 @@
 6,
 "Original intent, non-interventionist curator.  Spl...",
 0.0
+],
+[
+7,
+"Leave me alone",
+0.0
 ]
 ]
