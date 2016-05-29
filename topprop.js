@@ -23,5 +23,10 @@
 4,
 "split",
 0.0
+],
+[
+6,
+"Original intent, non-interventionist curator.  Spl...",
+0.0
 ]
 ]
