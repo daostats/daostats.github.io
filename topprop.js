@@ -24,6 +24,12 @@
 0
 ],
 [
+15,
+"Dear DAO - Tokenholders, I am a simple DAO-Tokenho...",
+2.0,
+0
+],
+[
 1,
 "",
 0.0,
