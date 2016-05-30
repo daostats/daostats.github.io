@@ -64,5 +64,11 @@
 "",
 0.0,
 1
+],
+[
+12,
+"\ud83d\udd25 cdc00 split proposal \ud83d\udd25",
+0.0,
+1
 ]
 ]
