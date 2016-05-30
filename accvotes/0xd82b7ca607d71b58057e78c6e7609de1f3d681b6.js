@@ -1,0 +1,20 @@
+[
+ [
+  15,
+  1,
+  "0x95b3ba87192e5fe48bd4d24d5cdf27c092f72dadfe30af44aa27874b0c19edb",
+  0
+ ],
+ [
+  5,
+  1,
+  "0xd997caae18cc343f632b2bcd2dbb8a6875902c7e28c0df4eee76b6a68b6ea848",
+  0
+ ],
+ [
+  2,
+  0,
+  "0xf0a989c3b402a558461733a9e0e15cc92976703dbcae6808d45c8bffa273f9ef",
+  1
+ ]
+]
