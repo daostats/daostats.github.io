@@ -7,7 +7,7 @@
 "desc": "arbitrage ftw",
 "history": [],
 "newCurator": 1,
-"nope": 0,
+"nope": 776923076923076923,
 "passed": null,
 "propID": 13,
 "propdeposit": 0.0,
