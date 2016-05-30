@@ -114,7 +114,7 @@
                 console.log(a);
                 deposit = baseToETH2(a[2], "eth");
                 var s = "";
-                if(p[3] == 1)s = "Split";
+                if(a[3] == 1)s = "Split";
                
                 $('#amountTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", a[0], a[1], deposit, s));
                 
