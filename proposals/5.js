@@ -159,12 +159,12 @@
 ],
 "newCurator": 0,
 "no": 2070344169557319711669,
-"nope": 9198860848892202075676,
+"nope": 9208860848892202075676,
 "passed": null,
 "propID": 5,
 "propdeposit": 2.0,
 "qDivisor": null,
 "recipient": "0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
 "txhash": "0x3bd5b80b3094d253ec97beb3cf7d1b9047f47e8d95f406ae2dfc8cee2d16c9b0",
-"yes": 108153638125030780888422
+"yes": 108253638125030780888422
 }
