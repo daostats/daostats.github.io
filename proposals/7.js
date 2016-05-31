@@ -7,7 +7,7 @@
 "desc": "Leave me alone",
 "history": [],
 "newCurator": 1,
-"nope": 749383788058642951250,
+"nope": 1149383788058642951250,
 "passed": null,
 "propID": 7,
 "propdeposit": 0.0,
