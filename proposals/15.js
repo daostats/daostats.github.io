@@ -5,68 +5,7 @@
 "creator": "0x0cddbbf2871745b092e5b91eed3066e890999b60",
 "deadline": 1465835229,
 "desc": "Dear DAO - Tokenholders, I am a simple DAO-Tokenholder and I will not post anything on the conventional Web2.0 social media. At the moment, it seems voting in the DAO has security issues. I am asking all DAO-Tokenholders to show the actual voting-power of the DAO. Please vote YES to show you are actually voting. Please vote NO to show that you are voting but unfortunately, you are a little bit annoyed by that proposal. I am serious. That's why I am willing to spend 2 ETH for this proposal. Lets show what we've got! The DAO is alive! I am auxborg",
-"history": [
-[
-1613127,
-42000,
-0
-],
-[
-1613229,
-392000,
-0
-],
-[
-1613345,
-392280,
-0
-],
-[
-1613445,
-403806,
-1393714
-],
-[
-1613716,
-423270,
-62165
-],
-[
-1613870,
-494065,
-62165
-],
-[
-1613932,
-502106,
-62165
-],
-[
-1614045,
-4343819,
-62165
-],
-[
-1614193,
-15745963,
-920886
-],
-[
-1614316,
-5303548,
-748834
-],
-[
-1615136,
-413608,
-2624988
-],
-[
-1615262,
-823222,
-1654403
-]
-],
+"history": [],
 "newCurator": 0,
 "nope": 9849964316227683312285,
 "passed": null,

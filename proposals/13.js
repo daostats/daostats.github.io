@@ -5,13 +5,7 @@
 "creator": "0xf8f9fc62a19c87c657a06febd184f068c0fc9cae",
 "deadline": 1465195232,
 "desc": "arbitrage ftw",
-"history": [
-[
-1614695,
-839,
-77
-]
-],
+"history": [],
 "newCurator": 1,
 "nope": 776923076923076923,
 "passed": null,

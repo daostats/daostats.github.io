@@ -5,13 +5,7 @@
 "creator": "0x228d29ea776cb17ca0db0538562ecaacdc0a9e46",
 "deadline": 1465131592,
 "desc": "",
-"history": [
-[
-1606449,
-2659799,
-0
-]
-],
+"history": [],
 "newCurator": 1,
 "nope": 308338208168642951250,
 "passed": null,

@@ -5,13 +5,7 @@
 "creator": "0xcdc00dd1459e293c9c81880a2b3c4e5396a8ef7b",
 "deadline": 1465185937,
 "desc": "\ud83d\udd25 cdc00 split proposal \ud83d\udd25",
-"history": [
-[
-1610000,
-81,
-0
-]
-],
+"history": [],
 "newCurator": 1,
 "nope": 200776923076923076923,
 "passed": null,

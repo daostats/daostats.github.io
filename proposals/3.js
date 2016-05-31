@@ -5,50 +5,8 @@
 "creator": "0x66756ae3ebe94cd4e5e95846fceefcd4f69f8a8d",
 "deadline": 1465668580,
 "desc": "Should curators only whitelist projects that are related to DAO security for the next 4 weeks?",
-"history": [
-[
-1601878,
-165794,
-0
-],
-[
-1602330,
-694562,
-257034
-],
-[
-1602894,
-230243,
-668352
-],
-[
-1603337,
-0,
-315611
-],
-[
-1608704,
-283689,
-769092
-],
-[
-1610572,
-396969,
-1228785
-],
-[
-1612344,
-401099,
-1244785
-],
-[
-1612739,
-402806,
-1250477
-]
-],
+"history": [],
 "newCurator": 0,
-"no": 1290000000000000000000,
 "nope": 26249885406568510078106,
 "passed": null,
 "propID": 3,
