@@ -7,7 +7,7 @@
 "desc": "Should curators only whitelist projects that are related to DAO security for the next 4 weeks?",
 "history": [],
 "newCurator": 0,
-"nope": 42249885306568510078106,
+"nope": 42251885306568510078106,
 "passed": null,
 "propID": 3,
 "propdeposit": 2.0,
