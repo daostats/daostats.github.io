@@ -316,8 +316,8 @@ if(propid % 1 == 0)
   
     console.log(status);
     
-    var recipientMode = "New Service Provider: ";
-    if(data["newCurator"]) recipientMode = "Recipient: ";
+
+    //if(data["newCurator"]==0) $("#recipientMode").text("Recipient: ");
     applyData({amount: baseToETH(data["amount"]), 
           creator: data["creator"],
           recipient: data["recipient"],
