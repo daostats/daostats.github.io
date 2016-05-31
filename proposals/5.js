@@ -7,7 +7,7 @@
 "desc": "Moratorium on proposals until the DAO contract is upgraded (via newContract proposal), fixing most serious issues with voting and splitting. Funds can be moved to the new contract gradually, via multiple proposals.",
 "history": [],
 "newCurator": 0,
-"nope": 9349860848892202075676,
+"nope": 9352860848892202075676,
 "passed": null,
 "propID": 5,
 "propdeposit": 2.0,
