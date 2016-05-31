@@ -30,6 +30,12 @@
 0
 ],
 [
+17,
+"Raising the Proposal Deposit to 11 ETH  \\n  This P...",
+2.0,
+0
+],
+[
 1,
 "",
 0.0,
