@@ -1,6 +1,14 @@
 {
- "amount": 47589000000000000000,
+ "amount": 0,
  "transfers": [
+  {
+   "amt": 47589000000000000000,
+   "blk": 1615712,
+   "out": 1,
+   "tgt": "0xdf21fa922215b1a56f5a6d6294e6e36c85a0acfb",
+   "tid": 4,
+   "txh": "0x52a312b1e8bfefbd6a3cbedd706db205d49098e44b294021a2db5f85bb5eb923"
+  },
   {
    "amt": 47589000000000000000,
    "blk": 1615693,
