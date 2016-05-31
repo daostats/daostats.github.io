@@ -1,14 +1,14 @@
 function getData(url, success, nocache){
     
-    if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
+    //if(typeof(Storage) !== undefined && localStorage.fastMode == "true"){
             console.log("Fast mode");
             url = "https://raw.githubusercontent.com/daostats/daostats.github.io/master/" + url + ".js";
             
             var updateCycle = Math.floor((new Date().getMinutes()-1)/5);
             if(nocache != true) url += "?c=" + updateCycle;
-    }
+    //}
 
-    else url = url + ".js";
+    //else url = url + ".js";
     
   
     
@@ -221,6 +221,10 @@ function propLink(){
     $("a.propLink").each(function(){
         $(this).prop("href", "proposal.html#" + $(this).text());
     });
+    
+    $("a.propLinkData").each(function(){
+        $(this).prop("href", "proposal.html#" + $(this).attr("data-proposal"));
+    });
 }
 
 function txLink(){
@@ -277,4 +281,29 @@ function binaryIndexOf(searchElement, elementName) {
     }
  
     return minIndex;
+}
+
+function SMHD(t){
+  t = Math.round(t);
+  var s;
+  var f = t;
+  if(t<60){
+    s = t + " second";
+  }
+  else if(t < 60*60){
+    f = Math.round(t/60);
+    s = f + " minute";
+  }
+  else if(t < 60*60*24){
+    f = Math.round(t/(60*60));
+    s = f + " hour";
+  }
+  else{
+    f = Math.round(t/(60*60*24))
+    s = f + " day"
+  }
+  
+  if(f != 1)s += "s";
+  
+  return s;
 }

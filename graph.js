@@ -981,7 +981,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         .classed("tooltip", true)
 
 
-    var rectSize = function(r, w, h, m, yr){
+    var rectSize = function(r, w, h, m, y, yr){
             r
                 .attr("width", w)
                 .attr("x", width - w - m)
@@ -989,17 +989,16 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             if(yr === undefined) yr = r;
             
             yr  .attr("height", h)
-                .attr("y", height - h - m);
+                .attr("y", height - h - m - y);
             
             
     };
 
 
     if(options.button !== undefined){
-        var gThis = this;
+      var gThis = this;
 
-        var button = options.button;
-
+      options.button.forEach(function(button, i){
         var buttonMargin = 10;
         var buttonWidth = 16;
         var buttonHeight = 16;
@@ -1011,23 +1010,23 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             optionItem.append("rect")
             .classed("optionButton", true)
             .attr("x", width - buttonWidth - buttonMargin)
-            .attr("y", height - buttonHeight - buttonMargin)
+            .attr("y", height - buttonHeight*(i+1) - buttonMargin)
             .attr("width", buttonWidth)
             .attr("height", buttonHeight);
 
             optionItem.on("mouseover", function(dur, after){
                 if(dur === undefined) dur = 500;
                 
-                rectSize(d3.select(this).select(".optionButton").transition().duration(dur), buttonFullWidth, buttonFullHeight, buttonMargin);
-                rectSize(d3.select(this).select(".optionActive").transition().duration(dur), buttonWidth/2, buttonFullHeight, buttonMargin);
+                rectSize(d3.select(this).select(".optionButton").transition().duration(dur), buttonFullWidth, buttonFullHeight, buttonMargin, (buttonHeight+buttonMargin)*i);
+                rectSize(d3.select(this).select(".optionActive").transition().duration(dur), buttonWidth/2, buttonFullHeight, buttonMargin, (buttonHeight+buttonMargin)*i);
                 optionItem.style("opacity", 0.9);
                 var tsn = d3.select(this).select(".optionLabel").transition().delay(200).duration(dur).style("opacity", 1);
                 
                 if(after !== undefined)tsn.each("end", after);
             })
             .on("mouseout", function(){
-                rectSize(d3.select(this).select(".optionButton").transition().duration(500), buttonWidth, buttonHeight, buttonMargin);
-                rectSize(d3.select(this).select(".optionActive").transition().duration(500), buttonWidth/2, buttonHeight, buttonMargin);
+                rectSize(d3.select(this).select(".optionButton").transition().duration(500), buttonWidth, buttonHeight, buttonMargin, (buttonHeight+buttonMargin)*i);
+                rectSize(d3.select(this).select(".optionActive").transition().duration(500), buttonWidth/2, buttonHeight, buttonMargin, (buttonHeight+buttonMargin)*i);
                 optionItem.style("opacity", 0.5);
                 d3.select(this).select(".optionLabel").transition().duration(500).style("opacity", 0);
             })
@@ -1056,7 +1055,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             optionItem.append("rect")
             .classed("optionActive", true)
             .attr("x", width - buttonWidth/2 - buttonMargin)
-            .attr("y", height - buttonHeight - buttonMargin)
+            .attr("y", height - buttonHeight*(i+1) - buttonMargin*(i+1))
             .attr("width", buttonWidth/2)
             .attr("height", buttonHeight)
             .style("opacity", 0)
@@ -1064,12 +1063,13 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
             .classed("optionLabel", true)
             .attr("text-anchor", "middle")
             .attr("x", width - buttonFullWidth/2 - buttonMargin)
-            .attr("y", height - buttonFullHeight/2 + 4 - buttonMargin)
+            .attr("y", height - buttonFullHeight/2 + 4 - buttonHeight*i - buttonMargin*(i+1))
             .style("opacity", 0)
             .text(button.text);
             
             optionItem.on("mouseover").call(optionItem.node(), 900, function(){
             optionItem.on("mouseout").call(optionItem.node());});
+      });
     }
 
 }

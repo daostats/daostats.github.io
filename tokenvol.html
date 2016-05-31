@@ -151,7 +151,7 @@ getData("volhistory", function(data, status){
             //console.log(n);
             return Math.round(n/1000000).toLocaleString() + "M";
         },
-        {button: {text: "Show UTC time",
+        {button: [{text: "Show UTC time",
                      enable: function(){
                         this.changeTickFormat(
                             function(){return [this.xScaleTime, this.xScaleTime2];},
@@ -163,7 +163,7 @@ getData("volhistory", function(data, status){
                                     .ticks(getNDIntervals(n))
                                     .tickFormat(d3.time.format('%b %d'));
                             }, "xTime", 180, "Time");}
-                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}]});
 
     getData("bal", function(eth, status){
 
@@ -241,7 +241,7 @@ getData("volhistory", function(data, status){
 
         new plotGraph("graphBoxEth", allLines, [0], "Block", ["Ether"], function(n){
             return (Math.round(n/100000)/10).toLocaleString() + "M";
-        }, {button: {text: "Show UTC time",
+        }, {button: [{text: "Show UTC time",
                      enable: function(){
                         this.changeTickFormat(
                             function(){return [this.xScaleTime, this.xScaleTime2];},
@@ -252,7 +252,7 @@ getData("volhistory", function(data, status){
                                     .ticks(getNDIntervals(n))
                                     .tickFormat(d3.time.format('%b %d'));
                             }, "xTime", 180, "Time");}
-                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}});
+                                      , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}]});
 
     }, true);
     }, true);

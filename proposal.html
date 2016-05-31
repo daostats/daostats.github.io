@@ -17,6 +17,7 @@
 
 <script src="datahelper.js"></script>
 <script src="graph.js"></script>
+<script src="markdown.min.js"></script>
 
 
 </head>
@@ -81,7 +82,7 @@
         </span></span>
         <span id="statF" class="label label-danger" style="display:none;">Failed with <span class="majority"/>
         </span></span>
-        <span id="statV" class="label label-info" style="display:none;">Currently open</span>
+        <span id="statV" class="label label-info" style="display:none;">Currently voting</span>
         <span id="statT" class="label label-warning" style="display:none;">Ready to be tallied</span>
       </small>
     </h3> 
@@ -113,10 +114,10 @@
     <div class="col-md-6">
     <h4>Close date: <small><span id="close-js"></span></h4></small>
     <h4>Transaction: <small><a class="txLink shrink" id="txhash-js"></a></h4></small>
-    <h4>Deposit: <small><span id="deposit-js"></span></h4></small>
+    <h4>Close date: <small><span id="deposit-js"></span></h4></small>
     </div>
     </div><!-- row -->
-<h4> Votes cast: <small>
+<h4> Voting result: <small>
                 <span id="voteCap"/></span>
             </small>
             <div class="progress">
@@ -150,10 +151,14 @@
     <div id="pages1" class="tab-content">
     <div id="descpage" class="tab-pane active">
     
+    <div id="descDisplay" class="btn-group" style="display:none;" role="group" aria-label="Rendering">
+      <button id="buttonPlain" type="button" class="btn btn-default">Plain text</button>
+      <button id="buttonMarkdown" type="button" class="btn btn-default">Markdown</button>
+    </div>
     
             
               <div id="descText" class="panel-body">
-
+                No Description
               </div>
           </div>
           
@@ -238,6 +243,8 @@ var params = window.location.hash.substring(1).split(",");
 var propid = parseInt(params[0]);
 var tabParam = params[1];
 
+var plainText;
+
 if(propid % 1 == 0)
 {
   applyData({proposal: propid});
@@ -311,21 +318,29 @@ if(propid % 1 == 0)
     
     var recipientMode = "New Service Provider: ";
     if(data["newCurator"]) recipientMode = "Recipient: ";
-    applyData({amount: baseToETH2(data["amount"]), 
+    applyData({amount: baseToETH(data["amount"]), 
           creator: data["creator"],
           recipient: data["recipient"],
           txhash: data["txhash"],
           deposit: baseToETH2(data["propdeposit"], "eth")});
-
-    //$("#deposit-js").text(baseToEth2(data["amount"], "eth"));
     
     if(data["newCurator"]){
       $("#newSPAlert").collapse("show");
     }
     
-    $("#descText").text(data["desc"]);
+    plainText = data["desc"];
     
-    
+    if(plainText){
+      $("#descText").text(plainText);
+      
+      $("#descDisplay").removeAttr("style");
+      $("#buttonPlain").on("click", function(){
+        $("#descText").text(plainText);
+      });
+      $("#buttonMarkdown").on("click", function(){
+        $("#descText").html(markdown.toHTML(plainText).replace(/(?:\\n)/g, '<br />'));
+      });
+    }
     
     
     var yay = data["yes"];
@@ -420,10 +435,14 @@ if(propid % 1 == 0)
       var yesData = new Array(graphLog.length);
       var noData = new Array(graphLog.length);
       for(var i=0; i<graphLog.length; i++){
-      var blockTime = blockToTime(graphLog[i][0]);
-        yesData[i] = {xNum: graphLog[i][0], xTime: blockTime, y: graphLog[i][1]/totalVolUnit};
-        noData[i] = {xNum: graphLog[i][0], xTime: blockTime, y: graphLog[i][2]/totalVolUnit};
+        var blockTime = blockToTime(graphLog[i][0]);
+        var yesFac = graphLog[i][1]/totalVolUnit;
+        var noFac = graphLog[i][2]/totalVolUnit;
+        yesData[i] = {xNum: graphLog[i][0], xTime: blockTime, y: yesFac};
+        noData[i] = {xNum: graphLog[i][0], xTime: blockTime, y: noFac};
       }
+      
+      var maxFac = Math.max(yesData.slice(-1)[0].y, noData.slice(-1)[0].y);
       
       var yesLine = genLineDict(yesData, "Yes");
       yesLine.legend = {toggle: false};
@@ -436,7 +455,7 @@ if(propid % 1 == 0)
       var drawGraph = function(){
       new plotGraph("graphBox", [yesLine, noLine], [0], "Block", ["Votes (Percent)"], function(n){
       return n*100 + "%";
-    }, {button: {text: "Show UTC time",
+    }, {button: [{text: "Show UTC time",
            enable: function(){
             this.changeTickFormat(
               function(){return [this.xScaleTime, this.xScaleTime2];},
@@ -447,7 +466,11 @@ if(propid % 1 == 0)
                   .ticks(getNDIntervals(n))
                   .tickFormat(d3.time.format('%b %d'));
               }, "xTime", 180, "Time");}
-                    , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}},
+                    , disable: function(){this.changeTickFormat(undefined, undefined, "xNum", 100, "Block");}}/*,
+                 {text: "Scale Y axis",
+           enable: function(){
+            this.y.domain(0, maxFac);},
+           disable: function(){this.y.domain(0, 1);}}*/],
       type: "dual",
       blockDomain: [startBlock, endBlock],
       timeDomain: [startTime, endTime],

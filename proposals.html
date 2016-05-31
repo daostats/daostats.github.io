@@ -56,19 +56,29 @@
       <div class="row">
            
       <div class="col-md-9">
-      
+        <div class="row">
+           
+      <div class="col-sm-9">
         <h3>Open Proposals</h3>
         
         
         <h4>Number of open proposals: <span id="numProps"></span></h4>
+        </div>
+      <div class="col-sm-3">
+          <br />
+          <button id="hideSplitButton" type="button" class="pull-right btn btn-default">Hide Splits</button>
+      </div>
+      </div>
 
     <div class="table-responsive">
             <table id="amountTable" class="table">
               <thead>
                 <tr>
-                  <th>ID</th>
+                  <th><a class="sortOpt" data-dir="0" data-index="0" href="#">ID <span class="sortDir glyphicon"></span></a></th>
                   <th>Description</th>
-                  <th>Deposit</th>
+                  <th><a class="sortOpt" data-dir="0" data-index="2" href="#">Deposit <span class="sortDir glyphicon"></span></a></th>
+                  <th><a class="sortOpt" data-dir="1" data-index="4" href="#">Time Left <span class="sortDir glyphicon"></span></a></th>
+                  <th><a class="sortOpt" data-dir="0" data-index="5" href="#">Turnout <span class="sortDir glyphicon"></span></a></th>
                   <th></th>
                 </tr>
               </thead>
@@ -104,27 +114,74 @@
     
 
 <script>
-    getData("topprop", function(data, status){
+var sortIdx;
+var sortDir;
+
+var hideSplits = false;
+
+
+function populateTable(data, sort, dir){
+
+  $('#amountTable tbody').empty();
+  
+  console.log(sort, dir);
+  
+  if(hideSplits){
+    console.log("hs");
+    data = $.grep(data, function(e){
+      console.log(e[2]);
+      return e[3] != 1;
+    });
+  }
+  
+  if(sort !== false){
+    if(dir){
+      console.log("Sorting UP");
+      data.sort(function(a,b){
+        return a[sort] - b[sort];
+      });
+    }
+    else{
     
-        
-            for(var i=0; i<data.length; i++)
-            {
-              
-                a = data[i];
-                console.log(a);
-                deposit = baseToETH2(a[2], "eth");
-                var s = "";
-                if(a[3] == 1)s = "Split";
-               
-                $('#amountTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td>{1}</td><td>{2}</td><td>{3}</td></tr>", a[0], a[1], deposit, s));
-                
-                                                              
-                
-            }
+      console.log("Sorting Down");
+      data.sort(function(a,b){
+        return b[sort] - a[sort];
+      });
+    }
+  }
+
+  for(var i=0; i<data.length; i++)
+  {
+    
+      a = data[i];
+      deposit = baseToETH2(a[2], "eth");
+      if(a[1] == "")a[1] = "<span style=\"color:#777;\">No Description</span>";
+      var s = "";
+      if(a[3] == 1)s = "Split";
+      
+      var timeLeft = a[4] - Date.now()/1000;
+      if(timeLeft < 0)tStr= "Finished";
+      else tStr = SMHD(timeLeft);
+      
+      var turnout = Math.round(a[5]*10000)/100 + "%";
+      
+     
+      $('#amountTable tbody').append(String.format("<tr><td><a class=\"propLink\">{0}</a></td><td><a class=\"propLinkData\" data-proposal=\"{0}\">{1}</td><td>{2}</td><td>{3}</td><td>{4}</td><td>{5}</td></tr>", a[0], a[1], deposit, tStr, turnout, s));
+      
+                                                    
+      propLink();
+
+  }
+            
+
+}
+    getData("topprop", function(data, status){    
+            
+    
+            populateTable(data);
             
             $("#numProps").text(data.length);
             
-            propLink();
 
 
 
@@ -133,6 +190,39 @@
           });
           
         
+        
+        $(".sortOpt").on("click", function(){
+
+          $(".sortDir").removeClass("glyphicon-arrow-up");
+          $(".sortDir").removeClass("glyphicon-arrow-down");
+
+          var thisIdx = $(this).attr("data-index");
+          var thisDir = parseInt($(this).attr("data-dir"));
+          
+          //var sortDir = 0;
+          if (sortIdx == thisIdx){
+            sortDir = !sortDir;
+          }
+          else{
+            sortIdx = thisIdx;
+            sortDir = thisDir;
+          }
+          
+          var cls = "glyphicon-arrow-" + (sortDir?"up":"down");
+          console.log(cls);
+          $(this).children("span").addClass(cls);
+          
+          console.log(sortDir, sortIdx);
+          
+          populateTable(data, sortIdx, sortDir);
+        })
+        
+        $("#hideSplitButton").on("click", function(){
+          hideSplits = !hideSplits;
+          $(this).text((hideSplits?"Show":"Hide") + " Splits");
+          
+          populateTable(data, sortIdx, sortDir);
+        })
           
     
     });
