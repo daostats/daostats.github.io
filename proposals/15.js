@@ -43,7 +43,7 @@
 ]
 ],
 "newCurator": 0,
-"nope": 10701506120894349978951,
+"nope": 10701536120894349978951,
 "passed": null,
 "propID": 15,
 "propdeposit": 2.0,
