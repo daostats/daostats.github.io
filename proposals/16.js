@@ -14,5 +14,5 @@
 "qDivisor": null,
 "recipient": "0x7c81d252d9d1295058cd3620835f37e0eedd8840",
 "txhash": "0xee1994ed0e94f82fd0de7c6dcc2e7cb58e227eb0508598fae65188c8e2b0a8e7",
-"yes": 0
+"yes": 1250000000000000000000
 }
