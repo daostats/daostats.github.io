@@ -7,7 +7,7 @@
 "desc": "Do you believe in god?",
 "history": [],
 "newCurator": 0,
-"nope": 20086940288901628515786,
+"nope": 20131107334968705438862,
 "passed": null,
 "propID": 2,
 "propdeposit": 2.0,
