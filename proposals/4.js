@@ -7,7 +7,7 @@
 "desc": "split",
 "history": [],
 "newCurator": 1,
-"nope": 4677264499798091703014,
+"nope": 4693394975988567893490,
 "passed": null,
 "propID": 4,
 "propdeposit": 0.0,
