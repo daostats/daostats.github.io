@@ -5,9 +5,15 @@
 "creator": "0x71744de37e18561c508082ea27aee707190c429b",
 "deadline": 1465765529,
 "desc": "Curators, please hire somebody to fix the DAO code and allow more recipients",
-"history": [],
+"history": [
+[
+1620686,
+1109154,
+9912037
+]
+],
 "newCurator": 0,
-"nope": 99090373924228695004608,
+"nope": 99120373924228695004608,
 "passed": null,
 "propID": 11,
 "propdeposit": 2.0,
