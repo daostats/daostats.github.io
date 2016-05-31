@@ -7,7 +7,7 @@
 "desc": "Curators, please hire somebody to fix the DAO code and allow more recipients",
 "history": [],
 "newCurator": 0,
-"nope": 89129868742095654160914,
+"nope": 89181863672042067494247,
 "passed": null,
 "propID": 11,
 "propdeposit": 2.0,
