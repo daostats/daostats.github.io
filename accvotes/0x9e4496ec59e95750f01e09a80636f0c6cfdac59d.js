@@ -22,5 +22,11 @@
   0,
   "0x96cc39c44a7cf34556d29809decfa6bb14469548d5c2c29237a83575cbca4ac2",
   0
+ ],
+ [
+  2,
+  0,
+  "0x2f97a6ed32bd44ae8ab375b1066501c91ac331da2d0ddcd088d03744c4fce865",
+  0
  ]
 ]
