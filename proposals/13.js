@@ -5,9 +5,20 @@
 "creator": "0xf8f9fc62a19c87c657a06febd184f068c0fc9cae",
 "deadline": 1465195232,
 "desc": "arbitrage ftw",
-"history": [],
+"history": [
+[
+1621431,
+6039,
+11506
+],
+[
+1622703,
+6039,
+11786
+]
+],
 "newCurator": 1,
-"nope": 776923076923076923,
+"nope": 117862637362637362637,
 "passed": null,
 "propID": 13,
 "propdeposit": 0.0,

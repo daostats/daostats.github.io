@@ -5,9 +5,15 @@
 "creator": "0xcdc00dd1459e293c9c81880a2b3c4e5396a8ef7b",
 "deadline": 1465185937,
 "desc": "\ud83d\udd25 cdc00 split proposal \ud83d\udd25",
-"history": [],
+"history": [
+[
+1621427,
+5281,
+31506
+]
+],
 "newCurator": 1,
-"nope": 200776923076923076923,
+"nope": 315062637362637362637,
 "passed": null,
 "propID": 12,
 "propdeposit": 0.0,

@@ -5,9 +5,15 @@
 "creator": "0xe82d5b10ad98d34df448b07a5a62c1affbef758f",
 "deadline": 1465104577,
 "desc": "Leave me alone",
-"history": [],
+"history": [
+[
+1621405,
+118006,
+126366
+]
+],
 "newCurator": 1,
-"nope": 1149383788058642951250,
+"nope": 1263669502344357236964,
 "passed": null,
 "propID": 7,
 "propdeposit": 0.0,
