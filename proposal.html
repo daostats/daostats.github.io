@@ -516,7 +516,7 @@ if(propid % 1 == 0)
       
       var drawGraph = function(){
       new plotGraph("graphBox", [yesLine, noLine], [0], "Block", ["Votes (Percent)"], function(n){
-      return Math.round(n*1000)/10 + "%";
+      return Math.round(n*10000)/100 + "%";
     }, {button: [{text: "Show UTC time",
            enable: function(){
             this.changeTickFormat(
