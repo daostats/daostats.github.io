@@ -15,6 +15,11 @@
 1623886,
 16,
 0
+],
+[
+1625440,
+7318,
+0
 ]
 ],
 "newCurator": 1,
@@ -25,5 +30,5 @@
 "qDivisor": null,
 "recipient": "0xf8c3879ee8dde81f074abca79b2270eab9942ec1",
 "txhash": "0xff60dc95a9203d0c61f8873005af3ab6d7f012da8fbacc5640e5ed6b2e34f29c",
-"yes": 160000000000000000
+"yes": 73186666666666666665
 }
