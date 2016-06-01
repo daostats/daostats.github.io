@@ -71,7 +71,7 @@ function getNHIntervals(interval){
 }
 function getDIntervals(start, stop, interval){
     if(interval === undefined || interval <= 0) interval = 1;
-    console.log(interval);
+    console.log(start, interval);
     
     
     
@@ -81,8 +81,8 @@ function getDIntervals(start, stop, interval){
     s.setUTCSeconds(0);
     s.setUTCMilliseconds(0);
     
-    if(s.getHours >= 9){
-      s.getUTCDate(s.getUTCDate() + 1);
+    if(s.getUTCHours() > 9){
+      s.setUTCDate(s.getUTCDate() + 1);
     }
     s.setUTCHours(9);
     
@@ -1006,6 +1006,7 @@ function plotGraph(id, lines, dd, xLabel, yLabel, yTick, options){
         var buttonFullHeight = 20;
         var optionItem = svg.append("g")
             .style("opacity", 0.5);
+            
 
             optionItem.append("rect")
             .classed("optionButton", true)
