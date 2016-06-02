@@ -5,9 +5,15 @@
 "creator": "0xf4c0eef475ab35625ac223394f9c410ccb577747",
 "deadline": 1465450681,
 "desc": "GFX, others please don't vote",
-"history": [],
+"history": [
+[
+1628672,
+0,
+280
+]
+],
 "newCurator": 1,
-"nope": 0,
+"nope": 2800000000000000000,
 "passed": null,
 "propID": 39,
 "propdeposit": 0.0,
