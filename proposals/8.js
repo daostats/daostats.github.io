@@ -5,9 +5,15 @@
 "creator": "0xa72ded5c1122312d9f4ed66bf4a396139eadaf56",
 "deadline": 1465130548,
 "desc": "",
-"history": [],
+"history": [
+[
+1632950,
+99999,
+3909213
+]
+],
 "newCurator": 1,
-"nope": 708338208168642951250,
+"nope": 39092138208168642951250,
 "passed": null,
 "propID": 8,
 "propdeposit": 0.0,
