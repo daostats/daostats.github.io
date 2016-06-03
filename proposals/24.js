@@ -5,9 +5,15 @@
 "creator": "0x3065a8444787f076bff10e5df3ec66606e3c8b68",
 "deadline": 1465312492,
 "desc": "WL split",
-"history": [],
+"history": [
+[
+1634087,
+10,
+3838379
+]
+],
 "newCurator": 1,
-"nope": 0,
+"nope": 38383800000000000000000,
 "passed": null,
 "propID": 24,
 "propdeposit": 0.0,
