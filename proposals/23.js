@@ -10,6 +10,11 @@
 1634095,
 0,
 3838379
+],
+[
+1636828,
+9999,
+3838379
 ]
 ],
 "newCurator": 1,
@@ -20,5 +25,5 @@
 "qDivisor": null,
 "recipient": "0x357d083321319cc1a8ebad90ba1db06c8698eef6",
 "txhash": "0xaead09d0b7bc168d3ebaee07b90befc9fb0cd167f07dc89ba8de9dd2ee2dfaf7",
-"yes": 0
+"yes": 99998518180000000000
 }
