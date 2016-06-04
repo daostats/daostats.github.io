@@ -1,6 +1,14 @@
 {
- "amount": 334575705707276899000000,
+ "amount": 334576485707276899000000,
  "transfers": [
+  {
+   "amt": 780000000000000000,
+   "blk": 1644888,
+   "out": 0,
+   "tgt": "0xaddc63628dcfc8b5853169e2fbe3576b62a555e6",
+   "tid": 1,
+   "txh": "0x8ba4cebefcd9475f271f4e4946ed7a06234164170c67b1d4cf21fdf6720f5132"
+  },
   {
    "amt": 500000000000000000000,
    "blk": 1644761,
@@ -792,14 +800,6 @@
    "tgt": "0xf79bf5f20f56bb1e9f3fa5e881b7be65da053265",
    "tid": 0,
    "txh": "0x19bffeca0367b00a2d90a3fb4e367bccead909e03e7a28b80c6d11a284ab90ec"
-  },
-  {
-   "amt": 2578780903100000000,
-   "blk": 1640940,
-   "out": 0,
-   "tgt": "0x0e784e0e4e7a5a1eb123fdb2b039cd3912d8331f",
-   "tid": 2,
-   "txh": "0x426e1eced6fac156198e7d7bf431491ef4c187c1be1ce9f870c2f9e6b1607252"
   }
  ]
 }
