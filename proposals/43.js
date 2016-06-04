@@ -45,6 +45,11 @@
 1641229,
 0,
 94976
+],
+[
+1641827,
+9322,
+94976
 ]
 ],
 "newCurator": 0,
@@ -55,5 +60,5 @@
 "qDivisor": null,
 "recipient": "0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
 "txhash": "0x8642768daca4f0f2e8bb2a7e261586be48bf87dd8797f15444b5d84e553cc7f3",
-"yes": 0
+"yes": 93226239946413333333
 }
