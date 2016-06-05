@@ -1,0 +1,26 @@
+[
+ [
+  13,
+  0,
+  "0x9b08a4f38dfc0435fb295dbb3f61fc66b97fdf87d9a5872db615c752ebbb7787",
+  1
+ ],
+ [
+  12,
+  0,
+  "0x779b3b9a7b276bc22d8f2eff0c7a1d35e214f8d5fff162b3f460f1ee2ca11cc1",
+  1
+ ],
+ [
+  11,
+  0,
+  "0xe830ab19c41c185041d6909353eafbcea327de32ef203f74d20968eb7d540217",
+  0
+ ],
+ [
+  3,
+  0,
+  "0xbfa830ce8de37f48d88ff95b5ec6c6fc12997b6032a6b3ba77fda2bea70b53e9",
+  2
+ ]
+]
