@@ -10,15 +10,20 @@
 1650179,
 9322,
 0
+],
+[
+1650375,
+11550,
+15000
 ]
 ],
 "newCurator": 0,
-"nope": 0,
+"nope": 150000000000000000000,
 "passed": null,
 "propID": 51,
 "propdeposit": 2.0,
 "qDivisor": null,
 "recipient": "0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
 "txhash": "0xa65aad79b3df6f2341ec6d79a0ae56bbf1bf87ef964f6fe5982dd1c10ee41a8",
-"yes": 93226239946413333333
+"yes": 115504066763113333333
 }
