@@ -15,6 +15,11 @@
 1649766,
 99,
 0
+],
+[
+1652876,
+737,
+0
 ]
 ],
 "newCurator": 1,
@@ -25,5 +30,5 @@
 "qDivisor": null,
 "recipient": "0x5824a7486ea2ec17749f936c7b89faa4972f8eb1",
 "txhash": "0xcefb49eca8836c3bcef2111ed8f41ad066420ad6af84a744dfdfa1c8829eab3",
-"yes": 999900000000000001
+"yes": 7376846366666666667
 }
