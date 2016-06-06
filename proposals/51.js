@@ -30,6 +30,11 @@
 1651657,
 15978,
 17376
+],
+[
+1651879,
+25781,
+17376
 ]
 ],
 "newCurator": 0,
@@ -40,5 +45,5 @@
 "qDivisor": null,
 "recipient": "0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
 "txhash": "0xa65aad79b3df6f2341ec6d79a0ae56bbf1bf87ef964f6fe5982dd1c10ee41a8",
-"yes": 159786739113409581527
+"yes": 257812784300357455241
 }
