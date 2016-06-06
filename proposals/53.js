@@ -5,9 +5,15 @@
 "creator": "0x4853143d0f5524df67a0a5bdd2fb63c76c7693f6",
 "deadline": 1465842522,
 "desc": "arbitrage ftw 2",
-"history": [],
+"history": [
+[
+1655920,
+0,
+5896
+]
+],
 "newCurator": 1,
-"nope": 0,
+"nope": 58962212269500000000,
 "passed": null,
 "propID": 53,
 "propdeposit": 0.0,
