@@ -70,6 +70,11 @@
 1654721,
 28913,
 18334
+],
+[
+1654854,
+29113,
+18334
 ]
 ],
 "newCurator": 0,
@@ -80,5 +85,5 @@
 "qDivisor": null,
 "recipient": "0xbb9bc244d798123fde783fcc1c72d3bb8c189413",
 "txhash": "0xa65aad79b3df6f2341ec6d79a0ae56bbf1bf87ef964f6fe5982dd1c10ee41a8",
-"yes": 289133147936721091604
+"yes": 291133147936721091604
 }
