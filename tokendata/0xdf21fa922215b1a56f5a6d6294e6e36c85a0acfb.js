@@ -1,6 +1,38 @@
 {
- "amount": 300100618536331299000000,
+ "amount": 299938845331541299000000,
  "transfers": [
+  {
+   "amt": 100703404790000000000,
+   "blk": 1654772,
+   "out": 1,
+   "tgt": "0x960019fe1b7f5c27e261943a1b7a047596d8a76c",
+   "tid": 2,
+   "txh": "0x62b3b7c41845a07103acb60ce6b781517355febd45262c76c324470227dd8555"
+  },
+  {
+   "amt": 10970000000000000000,
+   "blk": 1654771,
+   "out": 1,
+   "tgt": "0xd1de59de1c07b13cd06af204d06f59465d2d9fc6",
+   "tid": 3,
+   "txh": "0xfbd659c5d14a0c3971a9a332255f74d6a0325983f4a5a2b4cc4329c996269fd7"
+  },
+  {
+   "amt": 99900000000000000,
+   "blk": 1654755,
+   "out": 1,
+   "tgt": "0x631aaf66356ae02ea31be1eb69b0b6b407c7e003",
+   "tid": 3,
+   "txh": "0xcd0fd62f3af5a980e731a38cfab3de10902bce68a93a0d1278f1a2ac5bf83777"
+  },
+  {
+   "amt": 49999900000000000000,
+   "blk": 1654754,
+   "out": 1,
+   "tgt": "0x4faa058b0f3eeaa5cf7a895c9629cadf2a45cd89",
+   "tid": 3,
+   "txh": "0xc8df9483779a36e8c641ffa4b8982918815a8322bd537d8b60ab94573e5aee3d"
+  },
   {
    "amt": 149499900000000000000,
    "blk": 1654734,
@@ -768,38 +800,6 @@
    "tgt": "0x8c98897b5b193c0abdeb03e20ad1d9377f05cac0",
    "tid": 8,
    "txh": "0xbbcaf4fad42e3380dd9ee9a7b317d675bf1421c8e96db54a93b2103dc2b1ab54"
-  },
-  {
-   "amt": 74900000000000000,
-   "blk": 1650356,
-   "out": 1,
-   "tgt": "0x8c98897b5b193c0abdeb03e20ad1d9377f05cac0",
-   "tid": 0,
-   "txh": "0x5758edff0972451788d686e3c8135ac9bcdde774528fa964226f86060ba06770"
-  },
-  {
-   "amt": 821689314764200000000,
-   "blk": 1650213,
-   "out": 1,
-   "tgt": "0xefd23aec1235d5a9949847fede2be4c172d40d11",
-   "tid": 6,
-   "txh": "0x27621d65b66ce6a5cf5a2e8055a5a99d163275623febf032b13d2e3baa4b7ed8"
-  },
-  {
-   "amt": 3499999900000000000000,
-   "blk": 1650177,
-   "out": 1,
-   "tgt": "0xcef67dafad966f970cbc9c73830f69e6df9f2c10",
-   "tid": 0,
-   "txh": "0x8f88e1f45978a87d8440b0adff78e26a2c5972b1ef2aee300a0e920e994dd7d5"
-  },
-  {
-   "amt": 134999900000000000000,
-   "blk": 1650094,
-   "out": 1,
-   "tgt": "0xd322392714382626d04a6b0459be133550ceaf50",
-   "tid": 0,
-   "txh": "0x1f8bcab30cab6afb803a38dce01acf2a546e84861d231e96183ccebafff82d32"
   }
  ]
 }
