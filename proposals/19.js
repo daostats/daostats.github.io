@@ -35,6 +35,11 @@
 1648302,
 0,
 3906900
+],
+[
+1658994,
+1686495,
+3906900
 ]
 ],
 "newCurator": 1,
@@ -45,5 +50,5 @@
 "qDivisor": null,
 "recipient": "0xf398c9b8107dccc697546969fb2d5956762b60fb",
 "txhash": "0xd9eead09e29741be72e4bd0c688ecf9eecd7b43dd3fd600c6aff4a956189b990",
-"yes": 0
+"yes": 16864956540000000000000
 }
