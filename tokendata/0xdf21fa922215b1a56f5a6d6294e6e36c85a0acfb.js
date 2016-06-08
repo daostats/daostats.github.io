@@ -1,6 +1,30 @@
 {
- "amount": 284633516097896299000000,
+ "amount": 283834515797896299000000,
  "transfers": [
+  {
+   "amt": 1000000000000000000,
+   "blk": 1665579,
+   "out": 0,
+   "tgt": "0xa3773ad8c4ea83088c6a66d2a0be42235c5f0279",
+   "tid": 9,
+   "txh": "0xc8bdf1c727ac1bbaae745f058054e20208f190575d3781c2977f90cb6c03afca"
+  },
+  {
+   "amt": 799999900000000000000,
+   "blk": 1665570,
+   "out": 1,
+   "tgt": "0x99ca98911d8deab1f93ee7770f80a3503e0202e5",
+   "tid": 6,
+   "txh": "0x9897fdcc991c8dcf644e93c913f790aa16c900ac9ed7a518f8377fd7b819aeeb"
+  },
+  {
+   "amt": 400000000000000,
+   "blk": 1665570,
+   "out": 1,
+   "tgt": "0x2f8164c474398530cff54ea2aeee887d75729088",
+   "tid": 8,
+   "txh": "0xe5f2a621e06a0f868746cd89a08aa1c4dd16506296eb0f86fb944121a8cb43e6"
+  },
   {
    "amt": 369785709039600000000,
    "blk": 1665560,
@@ -698,28 +722,12 @@
    "txh": "0x45346370e4bd516a735d07b9e08fe25468e60f8d181eb7768d34acf622ee4e1b"
   },
   {
-   "amt": 1009900000000000000,
-   "blk": 1663267,
-   "out": 1,
-   "tgt": "0x5f12f95680df85ac565c67ab4b68f178aae857f5",
-   "tid": 0,
-   "txh": "0xe7c01f2756e7411827e04972eacdacd2a621bda567eef3fae3ee2a24ee03ad6e"
-  },
-  {
    "amt": 3656846000000000000,
    "blk": 1663251,
    "out": 0,
    "tgt": "0x67e8d0f48fe43c1a20dcb54269cd3426ea7181d4",
    "tid": 4,
    "txh": "0x118b4df19d07855a7782b58e661ebc763fbca1ac4223d9494cbd7c27847be898"
-  },
-  {
-   "amt": 21825217132000000000,
-   "blk": 1663234,
-   "out": 1,
-   "tgt": "0xcf8207cb6c11a2cd8a18d087f8a59cff619ab3fe",
-   "tid": 0,
-   "txh": "0xc84c33314c633b9746de00f1553fcb8b2e9c3d1e2c3c53af357eba976e266558"
   },
   {
    "amt": 100000000000000000000,
@@ -792,14 +800,6 @@
    "tgt": "0x74ee2105a12bb582f9b7ec1d35a945d4baf2aace",
    "tid": 0,
    "txh": "0xcb32720a687744ff392f96f89fbf52d13cbe5028e45dc2d389eb74fca417fa11"
-  },
-  {
-   "amt": 10458005000000000,
-   "blk": 1662713,
-   "out": 0,
-   "tgt": "0xb7933435f2d28b3da70814a7b316bb1b1dc42a10",
-   "tid": 5,
-   "txh": "0x323d4dd1d86d1f3302349f6dc857a04577a4de00e54c02faba2e56e20d7274e5"
   }
  ]
 }
