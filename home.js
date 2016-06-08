@@ -6,6 +6,11 @@
  ],
  "prop": [
   [
+   63,
+   "Toni split",
+   1
+  ],
+  [
    62,
    "0x4E04 split proposal",
    1
@@ -49,14 +54,27 @@
    54,
    "split me baby one more time",
    1
-  ],
-  [
-   53,
-   "arbitrage ftw 2",
-   1
   ]
  ],
  "transfer": [
+  [
+   1668796,
+   "0x73e52fde465a855b60a2846292ee0c77965063b6",
+   "0xb725d7f690f215bf06c3ef81adc65c6a1b936b62",
+   1
+  ],
+  [
+   1668796,
+   "0x8b3b3b624c3c0397d3da8fd861512393d51dcbac",
+   "0xb3fd9d3a6780a9d577ac0e19b612e89863b8c4ce",
+   650000000000000000000
+  ],
+  [
+   1668794,
+   "0xdf21fa922215b1a56f5a6d6294e6e36c85a0acfb",
+   "0xb1ed0b3caaa2ebe1fe8a27e77f90faa281f03c2f",
+   9969900000000000000
+  ],
   [
    1668779,
    "0xb725d7f690f215bf06c3ef81adc65c6a1b936b62",
@@ -98,24 +116,6 @@
    "0x6ee980384e53f0d2e205b61cbb847ff670fefdba",
    "0x8b3b3b624c3c0397d3da8fd861512393d51dcbac",
    145000000000000000000
-  ],
-  [
-   1668764,
-   "0xaf7b82ca296dfa3a21a3ccc6acc8918d7e2e7575",
-   "0x6ee980384e53f0d2e205b61cbb847ff670fefdba",
-   145000000000000000000
-  ],
-  [
-   1668758,
-   "0xcd0ea556b8eee1de12d034a513bb0361b99fc908",
-   "0xd2bccef836aa35f6c6574e8802c32299865d1b82",
-   20000000000000000
-  ],
-  [
-   1668734,
-   "0x9e0f70dec65e4a62b5c4df1317f47fd2ef707d6c",
-   "0xdf21fa922215b1a56f5a6d6294e6e36c85a0acfb",
-   11969099900000000
   ]
  ],
  "vol": 11660524907500598656781866,
