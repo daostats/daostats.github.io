@@ -5,9 +5,15 @@
 "creator": "0xf2a83b593162d77c62337a02668be1ee088cb55d",
 "deadline": 1465850277,
 "desc": "0xF2a83 Split",
-"history": [],
+"history": [
+[
+1665908,
+0,
+3838379
+]
+],
 "newCurator": 1,
-"nope": 0,
+"nope": 38383800000000000000000,
 "passed": null,
 "propID": 55,
 "propdeposit": 0.0,
