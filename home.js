@@ -1,10 +1,15 @@
 {
- "bal": 11672027,
+ "bal": 11671920,
  "balEX": [
   18,
   344907
  ],
  "prop": [
+  [
+   61,
+   "banana split",
+   1
+  ],
   [
    60,
    "0x65split",
@@ -49,14 +54,15 @@
    52,
    "test split 1337",
    1
-  ],
-  [
-   51,
-   "#42 ULTIMATE SHOW OFF DAO Community! Let\u00b4s show DA...",
-   0
   ]
  ],
  "transfer": [
+  [
+   1666690,
+   "0xccc765a1c09381b0b13260229947c5c1ca0e632c",
+   "0xdf21fa922215b1a56f5a6d6294e6e36c85a0acfb",
+   1113863030000000000
+  ],
   [
    1666683,
    "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98",
@@ -110,12 +116,6 @@
    "0x407dd3a3c0bd15a9b52dccdf4c84c879de630fa1",
    "0x42b8a09e46e6e367ed0135d3cd7fbdce777e0873",
    5000000000000000000
-  ],
-  [
-   1666640,
-   "0xd6f3919335a90e61fc5b66e3e0a0d9193ec730d1",
-   "0xc2f4523202a2de61f64c80fee04ea7cb8ab3a86f",
-   34000000000000000000
   ]
  ],
  "vol": 11671905399510927356781866,
