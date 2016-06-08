@@ -5,9 +5,15 @@
 "creator": "0x0f935781046701897c9e0d9876fb5c82d89d53be",
 "deadline": 1465848031,
 "desc": "split me baby one more time",
-"history": [],
+"history": [
+[
+1665898,
+0,
+3838379
+]
+],
 "newCurator": 1,
-"nope": 0,
+"nope": 38383800000000000000000,
 "passed": null,
 "propID": 54,
 "propdeposit": 0.0,
