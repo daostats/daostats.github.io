@@ -4,5 +4,17 @@
   1,
   "0xc1f0219f6b6ba7c652a5c89ebcacfe3027b90b6352c636eec2ecc7339d439a6f",
   1
+ ],
+ [
+  40,
+  1,
+  "0xb1dfe5f17e53a36aa4f4f5fe664c3fbf1eb2e9f0d3e937c813df9e0723001e23",
+  1
+ ],
+ [
+  17,
+  1,
+  "0x899cc0c1ee08ec200904bdb438a7d13898447d213a036ac1bfba7f672b159f90",
+  0
  ]
 ]
