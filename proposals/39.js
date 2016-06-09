@@ -30,6 +30,11 @@
 1642400,
 0,
 3904410
+],
+[
+1670597,
+212183,
+3904410
 ]
 ],
 "newCurator": 1,
@@ -40,5 +45,5 @@
 "qDivisor": null,
 "recipient": "0xf4c0eef475ab35625ac223394f9c410ccb577747",
 "txhash": "0x25ef3ef86b0b2179be0d13bb08f7bad65a7446e38c4fec70fefd6908e38d8f35",
-"yes": 0
+"yes": 2121834500628300000000
 }
