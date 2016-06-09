@@ -5,7 +5,13 @@
 "creator": "0x3065a8444787f076bff10e5df3ec66606e3c8b68",
 "deadline": 1466091280,
 "desc": "WL split again",
-"history": [],
+"history": [
+[
+1673249,
+10,
+0
+]
+],
 "newCurator": 1,
 "nope": 0,
 "passed": null,
@@ -14,5 +20,5 @@
 "qDivisor": null,
 "recipient": "0x3065a8444787f076bff10e5df3ec66606e3c8b68",
 "txhash": "0x3058e27ede2610414917074c01cec6fa4062fa89b141e182c01a568d9d8a069d",
-"yes": 0
+"yes": 100000000000000000
 }
