@@ -6,6 +6,11 @@
  ],
  "prop": [
   [
+   67,
+   "WL split again",
+   1
+  ],
+  [
    66,
    "THE DAO SHOWS THAT VAROUFAKIS HAS NO VISION",
    1
@@ -49,14 +54,33 @@
    58,
    "this is rickdiculous!",
    1
-  ],
-  [
-   57,
-   "split-0x065f",
-   1
   ]
  ],
  "transfer": [
+  [
+   1673227,
+   "0xd94c9ff168dc6aebf9b6cc86deff54f3fb0afc33",
+   "0x844c832fa8e987ae9d05912eac69e2972879ffc7",
+   300000000000000000000
+  ],
+  [
+   1673226,
+   "0x5c9be7a7cc2f48610c078ab44a51a175cb59ebaf",
+   "0x433e3ba1c51b810fc467d5ba4dea42f7a9885e69",
+   9654760521490000000001
+  ],
+  [
+   1673213,
+   "0xafbeeda86115191d9730dae2e348988b4a0167e0",
+   "0x0a869d79a7052c7f1b55a8ebabbea3420f0d1e13",
+   200000000000000000000
+  ],
+  [
+   1673213,
+   "0xd1d5eaf62f8dbeb08454be699f97fd2e1a985aa7",
+   "0x0a869d79a7052c7f1b55a8ebabbea3420f0d1e13",
+   124189900000000000000
+  ],
   [
    1673204,
    "0x35b03ea4245736f57b85d2eb79628f036ddcd705",
@@ -92,30 +116,6 @@
    "0x3517f6e66f9ef0b2965bcc3c0ece57d10de3c390",
    "0xdf21fa922215b1a56f5a6d6294e6e36c85a0acfb",
    167329000000000000000
-  ],
-  [
-   1673179,
-   "0x9e0f70dec65e4a62b5c4df1317f47fd2ef707d6c",
-   "0xdf21fa922215b1a56f5a6d6294e6e36c85a0acfb",
-   10156404200000000
-  ],
-  [
-   1673175,
-   "0x0af65f14784e55a6f95667fd73252a1c94072d2a",
-   "0x37dfbf5580159e604c21eab2ebf2c878e3eb68d1",
-   249900000000000000000
-  ],
-  [
-   1673172,
-   "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98",
-   "0x3517f6e66f9ef0b2965bcc3c0ece57d10de3c390",
-   167329000000000000000
-  ],
-  [
-   1673164,
-   "0xfbb1b73c4f0bda4f67dca266ce6ef42f520fbb98",
-   "0x9e0f70dec65e4a62b5c4df1317f47fd2ef707d6c",
-   10156404200000000
   ]
  ],
  "vol": 11658095045948698156781866,
