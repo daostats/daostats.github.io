@@ -6,6 +6,12 @@
   2
  ],
  [
+  43,
+  0,
+  "0x98334e95188fe6141685da1349c5b037de0bc7860094dbedbbba55220ca53e3a",
+  0
+ ],
+ [
   17,
   1,
   "0x7e2f31187d53d2328d52db7c80cb759e0ec8fac6f07171e6fc2f97fb3de2b0aa",
